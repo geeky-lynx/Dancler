@@ -3,27 +3,15 @@
 FH.mp3
 FH.wav
 
-a.exe
+build/*
 
-miniaudio-master/.gitignore
-miniaudio-master/.gitmodules
-miniaudio-master/.github
-miniaudio-master/examples
-miniaudio-master/extras
-miniaudio-master/research
-miniaudio-master/resources
-miniaudio-master/tests
-miniaudio-master/website
-miniaudio-master/CHANGES.md
-miniaudio-master/CONTRIBUTING.md
-miniaudio-master/LICENSE
-miniaudio-master/README.md
+MiniAudio/.github
+MiniAudio/examples
+MiniAudio/extras
+MiniAudio/research
+MiniAudio/resources
+MiniAudio/resources
+MiniAudio/tests
+MiniAudio/website
 
-NuklearUI/.editorconfig
-NuklearUI/.gitattributes
-NuklearUI/.gitignore
-NuklearUI/clib.json
-NuklearUI/demo
-NuklearUI/doc
-NuklearUI/example
-NuklearUI/Readme.md
+MiniAudio/miniaudio-outdated.h

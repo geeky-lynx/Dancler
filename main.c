@@ -1,11 +1,9 @@
 #include <stdio.h>
-// #include "SDL/SDL2.h"
-
-#define NK_IMPLEMENTATION
-#include "NuklearUI/nuklear.h"
+#include <errno.h>
 
 #define MINIAUDIO_IMPLEMENTATION
-#include "miniaudio-master/miniaudio.h"
+#define MA_DEBUG_OUTPUT
+#include "MiniAudio/miniaudio.h"
 
 int main(int argc, char *argv[]) {
 
@@ -22,7 +20,6 @@ int main(int argc, char *argv[]) {
         return 2;
     }
 
-    // ma_device_start()
     ma_engine_play_sound(&engine, "FH.wav", NULL);
 
     printf("Press smth to quit lol.\n");
@@ -31,9 +28,4 @@ int main(int argc, char *argv[]) {
     ma_engine_uninit(&engine);
     
     return 0;
-
-
-    // struct nk_context UIContext;
-    // nk_init_default(&UIContext, &font);
-    // nk_begin(&UIContext, "Show", );
 }
