@@ -25,11 +25,17 @@ Dancler has a unique set of features, and those features are:
 
 # Manual & Installation
 
-Manual is for users of this app. It will be available in beta releases.
+Manual is for users of this app, including installation or building from source. It can be found in [MANUAL.md](./MANUAL.md).
+
+Installation intructions are located in [MANUAL.md](./MANUAL.md#installation) section `3. Installation & Building` article `3.1. Installation`.
 
 # Documentation, Contribution & Building
 
-Documentation is for developers working on this project or are willing to work on. It will be available shortly.
+Documentation is for developers working on this project or are willing to work on. It will be available shortly. It can be found in [DOCUMENTATION.md](./DOCUMENTATION.md)
+
+If you are a contributor or want to contribute, make sure to read [CONTRIBUTIONS.md](./CONTRIBUTIONS.md) as well as [DOCUMENTATION.md](./DOCUMENTATION.md).
+
+Building instructions are located in [MANUAL.md](./MANUAL.md#building) in section `3. Installation & Building`, article `3.2. Building`.
 
 # Changelog
 

@@ -5,11 +5,15 @@
 1. Introduction
 2. Getting Started
 3. Installation & Building
+    3.1. Installation
+    3.2. Building
 4. User Interface
 5. Setting up
 6. Configuration & Themeing
 
 # Installation & Building
+
+## Installation
 
 ## Building
 
