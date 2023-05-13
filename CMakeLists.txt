@@ -7,7 +7,7 @@ find_package(PkgConfig REQUIRED)
 
 add_executable(
 	dancler
-	main.c
+	src/main.c
 )
 
 # For Linux
@@ -21,7 +21,7 @@ target_link_libraries(dancler
 )
 
 target_link_libraries(dancler
-PRIVATE m
+	PRIVATE m
 )
 
 # target_link_libraries(dancler

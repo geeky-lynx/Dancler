@@ -5,13 +5,13 @@ FH.wav
 
 build/*
 
-MiniAudio/.github
-MiniAudio/examples
-MiniAudio/extras
-MiniAudio/research
-MiniAudio/resources
-MiniAudio/resources
-MiniAudio/tests
-MiniAudio/website
+libs/MiniAudio/.github
+libs/MiniAudio/examples
+libs/MiniAudio/extras
+libs/MiniAudio/research
+libs/MiniAudio/resources
+libs/MiniAudio/resources
+libs/MiniAudio/tests
+libs/MiniAudio/website
 
-MiniAudio/miniaudio-outdated.h
+libs/MiniAudio/miniaudio-outdated.h
