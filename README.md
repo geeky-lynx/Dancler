@@ -12,14 +12,14 @@ Again, Dancler is lightweight cross-platform music player and library manager. I
 
 Dancler has a unique set of features, and those features are:
 
-- [] Play, pause and stop playback
-- [] Go to next or previous playlist
-- [] Control volume
-- [] Access your playlist locally or on cloud from the app
-- [] Listen to a radio or podcast
-- [] Fade in and out between songs
-- [] Use audio effects like equlizer, reverb, bass, and others
-- [] Customize the interface
+- [ ] Play, pause and stop playback
+- [ ] Go to next or previous playlist
+- [ ] Control volume
+- [ ] Access your playlist locally or on cloud from the app
+- [ ] Listen to a radio or podcast
+- [ ] Fade in and out between songs
+- [ ] Use audio effects like equlizer, reverb, bass, and others
+- [ ] Customize the interface
 
 > Note: marked features are already implemented and ready to use, while unmarked features are planned for future.
 
