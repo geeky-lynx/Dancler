@@ -107,6 +107,43 @@ size_t convert_int_to_string(int number, char newString[]) {
 }
 ```
 
+### If variables have same data type, write them in the "compact way", with same or similar level of indentation
+
+This is somewhat to explain
+
+Example:
+```c
+// Compilant
+long double coordinateX,
+            coordinateY,
+            coordinateZ;
+float       rotation,
+            scaleX,
+            scaleY;
+
+// Non-compilant
+vector_t vectorA;
+vector_t vectorB;
+vector_t vectorC; // too much typing though
+```
+
+### Initial values should be set at start, except by lenghty functions
+
+Having values initialized at start can help with readibility of code, reducing complexity or other, so it is recommended to initialize starting value if we are assuming/predicting a result (for an example).
+
+Only exception is when you use functions with long names. Because of length of function names and its parameters, value initialization can't fit in one single line of a display, breaking it in more lines or hiding rest of it, and then you need to use a horizontal scroll.
+
+Example:
+```c
+// Compilant
+enum ErrorCode error = NO_ERROR;
+struct ImageFile *myImage = NULL;
+wchar_t message[MAX_MSG_LENGTH] = get_message_by(server);
+
+// Non-compilant
+enum Result loadingResult = load_image_cover_from_audio_file("./songs/O-Zone - Dragonstea Din Tei (Official Music Video).mp3", 100, 100, NULL);
+```
+
 ## Naming conventions/schemas
 
 When declaring new variables and constants, defining new functions, creating new structures, naming can be hard. Here are rules to help with that.
