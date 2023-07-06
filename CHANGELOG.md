@@ -1,3 +1,22 @@
+# Update no. 1.0.0.2
+
+## Commit "Fix signatures in CMake"
+
+There were errors about GTK linking, missing required signatures in functions `target_link_libraries`, `target_include_directories` and `target_link_directories`. The signature `PRIVATE` has been set to all of those functions.
+
+## Commit "Updated main window layout"
+
+More GUI elements have been added and old ones have been rearranged. Also, new window layout mockup has been changed. It will be revealed in next update.
+
+## Commit "New icons/images for navigation"
+
+New temporary `.png` images are created in `/src/assets` folder:
+- `no-cover.png` - Album cover placeholder, if there is no cover
+- `play.png` - Play button
+- `prev.png` - Previous song button
+- `next.png` - Next song button
+- `mute.png` - Mute audio button
+
 # Update no. 1.0.0.1
 
 ## Commit "Fulfilling the documentation"
