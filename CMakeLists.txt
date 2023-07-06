@@ -29,13 +29,13 @@ target_link_libraries(dancler
  # Including GTK library
 
 target_link_libraries(dancler
-	"${GTK4_LIBRARIES}"
+	PRIVATE "${GTK4_LIBRARIES}"
 )
 
 target_include_directories(dancler
-	"${GTK4_INCLUDE_DIRS}"
+	PRIVATE "${GTK4_INCLUDE_DIRS}"
 )
 
 target_link_directories(dancler
-	"${GTK4_LIBRARY_DIRS}"
+	PRIVATE "${GTK4_LIBRARY_DIRS}"
 )
