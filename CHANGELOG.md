@@ -1,3 +1,18 @@
+# Update no. 1.0.0.3
+
+## Commit "New Playback functions created"
+
+New functions are created:
+- `set_volume_controls_in_percents()` - Change playback volume
+- `load_audio_to_queue()` - Push a new audio into playback queue
+- `unload_audio_from_queue()` - Pop an already existing audio from playback queue
+- `toggle_playback()` - Play or pause current playback
+- `toggle_loop()` - Enable or disable playback loop
+
+## Commit "super small microscopic update of gui callbacks"
+
+There are no changes that affect the product. It is about to be in development after completing audio playback controls.
+
 # Update no. 1.0.0.2
 
 ## Commit "Fix signatures in CMake"
