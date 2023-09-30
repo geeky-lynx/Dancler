@@ -41,6 +41,7 @@ Folder architecture of the repo looks like this:
     /libs
         /MiniAudio
     /src
+        /assets
         /audio-controls
         /gui
 ```
@@ -51,9 +52,13 @@ In `/docs-assets` folder are assets used in [DOCUMENTATION.md](./DOCUMENTATION.m
 
 `/experiments` don't affect anything in this repository. It's here just for some experiments to test some library's feature, prototyping, innovate,...
 
-`/libs` contain libraries required for program to work. 
+`/libs` contain libraries required for program to work, like Miniaudio. 
 
-`/src` is where all the source code is available.
+`/src` is where all the source code is available. All code that is written has to be located here.
+
+`/src/audio-controls` folder contains functions controlling audio playback through Miniaudio.
+
+`/src/gui` folder contains functions and instructions for providing Graphical User Interface (GUI) and graphical event handling through function callbacks.
 
 # Guidelines
 
