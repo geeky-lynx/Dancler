@@ -1,3 +1,23 @@
+# Update no. 1.0.0.4
+
+## Commit "CMakeLists.txt GTK inclusion fix"
+
+Before building app with `cmake ..` and `cmake --build .` didn't work because of improper `include_*()` commands. Now, those are fixed and you can freely build with CMake again!
+
+## Commit "experimentation with callbacks"
+
+Me experimenting with GTK callbacks. Planned to be implemented into the Dancler.
+
+## Commit "Improve audio control functions"
+
+There were some compiler bugs in some functions. More improvement on the way.
+
+## Commit "Improve documentation & manual"
+
+In manual, step-by-step build process is now available on major GNU/Linux distributions. It includes how to build Dancler with CMake.
+
+In documentation, software architecture is better defined.
+
 # Update no. 1.0.0.3
 
 ## Commit "New Playback functions created"
