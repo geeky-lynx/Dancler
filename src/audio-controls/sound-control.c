@@ -39,6 +39,21 @@ void toggle_playback(ma_sound *sound) {
 void toggle_loop(ma_sound *sound) {
     const ma_bool32 isLoop = ma_sound_is_looping(sound);
     ma_sound_set_looping(sound, isLoop);
-    const char loopSwitch[] = isLoop ? "on" : "off";
-    printf("Dancler Terminal Log: Looping is %s.\n", loopSwitch);
+    if (isLoop)
+        printf("Dancler Terminal Log: Looping is on.\n");
+    else
+        printf("Dancler Terminal Log: Looping is on.\n");
+}
+
+void toggle_volume(ma_sound *sound) {
+    const float currentVolume = ma_sound_get_volume(sound);
+    // static float initialVolume = currentVolume;
+    if (currentVolume == 0) {
+        ma_sound_set_volume(sound, initialVolume / 100.0);
+        printf("Dancler Terminal Log: Current playback is unmuted.\n");
+    }
+    else {
+        ma_sound_set_volume(sound, 0.0);
+        printf("Dancler Terminal Log: Current playback is muted.\n");
+    }
 }
