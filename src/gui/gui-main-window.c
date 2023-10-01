@@ -57,7 +57,7 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
     gtk_widget_set_valign(coverBox, GTK_ALIGN_CENTER);
 
     coverImage = gtk_image_new();
-    gtk_image_set_from_file(GTK_IMAGE(coverImage), "../assets/no-cover.png");
+    gtk_image_set_from_file(GTK_IMAGE(coverImage), "assets/no-cover.png");
 
 
     playbackRightBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);

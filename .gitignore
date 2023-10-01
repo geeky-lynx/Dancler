@@ -4,6 +4,7 @@ FH.mp3
 FH.wav
 
 build/*
+!build/assets
 
 libs/MiniAudio/.github
 libs/MiniAudio/examples
