@@ -1,4 +1,4 @@
-#include <gtk/gtk.h>
+#include "../header.h"
 
 static void load_audio_file_cover(/* idk what parametrs need for this*/) {
 

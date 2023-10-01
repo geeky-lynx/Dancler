@@ -1,6 +1,4 @@
-#include <gtk/gtk.h>
-
-#include "../audio-controls/sound-control.c"
+#include "../header.h"
 
 #pragma gcc poison start_previous_audio start_next_audio
 

@@ -1,5 +1,4 @@
-#include <stdbool.h>
-#include "../../libs/MiniAudio/miniaudio.h"
+#include "../header.h"
 
 
 

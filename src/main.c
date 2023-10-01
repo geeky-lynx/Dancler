@@ -1,13 +1,4 @@
-#include <stdio.h>
-#include <errno.h>
-
-#define MINIAUDIO_IMPLEMENTATION
-#define MA_NO_NULL
-#define MA_DEBUG_OUTPUT
-#include "../libs/MiniAudio/miniaudio.h"
-
-#include <gtk/gtk.h>
-
+#include "header.h"
 #include "./gui/gui-main-window.c"
 
 int main(int argc, char *argv[]) {
