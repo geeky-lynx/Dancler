@@ -1,3 +1,17 @@
+# Update no. 1.0.0.4-1
+
+## Commit "Implement header.h in project"
+
+Creating a `header.h` file and doing all preprocessing requirements makes centralized place to do all of that. Plus, there will be no `#include` clashes.
+
+Also, app startup execution is faster because of `MA_ENABLE_ONLY_SPECIFIC_BACKENDS` and enabling backends for each platform they support.
+
+## Commit "Update .gitignore and build settings"
+
+`/src/assets` folder is copied to `/build/assets` for Dancler to use custom icons (which will be implemented eventually).
+
+asdf
+
 # Update no. 1.0.0.4
 
 ## Commit "CMakeLists.txt GTK inclusion fix"
