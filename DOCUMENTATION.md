@@ -132,7 +132,7 @@ vector_t vectorB;
 vector_t vectorC; // too much typing though
 ```
 
-### Initial values should be set at start, except by lenghty functions
+### Initial values at declaration is encouraged, except when you have lenghty functions
 
 Having values initialized at start can help with readibility of code, reducing complexity or other, so it is recommended to initialize starting value if we are assuming/predicting a result (for an example).
 
@@ -144,9 +144,10 @@ Example:
 enum ErrorCode error = NO_ERROR;
 struct ImageFile *myImage = NULL;
 wchar_t message[MAX_MSG_LENGTH] = get_message_by(server);
+pthread_t threadId; // no explicit need to set initial value
 
 // Non-compilant
-enum Result loadingResult = load_image_cover_from_audio_file("./songs/O-Zone - Dragonstea Din Tei (Official Music Video).mp3", 100, 100, NULL);
+enum Result loadingResult = load_image_cover_from_audio_file("./songs/O-Zone - Dragonstea Din Tei (Official Music Video).mp3", 100, 100, NULL); // bro i don't have a wide screen monitor
 ```
 
 ## Naming conventions/schemas
@@ -200,7 +201,7 @@ Examples:
 const double NUMBER_PI = 3.14259;
 const long double NATURAL_NUMBER_E = 2.17281828;
 const char8_t FINAL_GRADE = u'A';
-const int *PERMANENT_POINTER_TO_AUDIO_ENGINE = &audioEngine;
+const int const *PERMANENT_POINTER_TO_AUDIO_ENGINE = &audioEngine;
 
 // Non-compilant
 const char leave = 'c';

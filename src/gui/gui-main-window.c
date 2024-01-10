@@ -1,4 +1,5 @@
 #include "../header.h"
+#include "./gui-playback-controls.c"
 
 void initialize_window_layout(GtkApplication *application, gpointer userData) {
     GtkWidget   *mainWindow,
@@ -94,6 +95,8 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
     nextButton = gtk_button_new_from_icon_name("dancler-next");
     muteButton = gtk_button_new_from_icon_name("dancler-mute");
     volumeSlider = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
+
+    g_signal_connect(G_OBJECT(playStopButton), "clicked", G_CALLBACK(play_stop_current_audio), (struct ProgramConfig *)userData);
 
 
 

@@ -35,5 +35,12 @@
 // #include "./gui/gui-playback-information.c"
 
 
+struct ProgramConfig {
+    ma_sound *sound;
+    ma_engine *audioEngine;
+    ma_resource_manager *resourceManager;
+    ma_resource_manager_data_source *dataSource;
+};
+
 #define DANCLER_HEADER_
 #endif

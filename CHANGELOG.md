@@ -1,3 +1,18 @@
+# Update no. 1.0.0.4-2
+
+## Commit "Im lost"
+
+This commit includes multiple changes I can't explain well (i know I am breaking the documentation):
+
+- Moved placeholder `.png` icons from `/src/assets/` to `/build/assets/`
+- Added new songs in `/experiments` called "Barbie Girl (Hardstyle version)" and "She's Homeless x Spider-Man India",  files: `BG-HS.mp3` & `ShesHomeless.mp3`, respectively
+- Shameful attempt to add unit testing
+- Removed CLI "logging" in backend functions in file `/src/audio-controls/sound-control.c`
+- Added button events in GUI
+- New "functions"
+- A bit more experimenting
+- Added frontend-backend link (if that is called a "link")
+
 # Update no. 1.0.0.4-1
 
 ## Commit "Implement header.h in project"
