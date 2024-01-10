@@ -132,27 +132,60 @@ vector_t vectorB;
 vector_t vectorC; // too much typing though
 ```
 
-### Initial values at declaration is encouraged, except when you have lenghty functions
+### Initial values at declaration is encouraged, except when you have lenghty functions or it's pointless to assume what value will it have
 
-Having values initialized at start can help with readibility of code, reducing complexity or other, so it is recommended to initialize starting value if we are assuming/predicting a result (for an example).
+It's good idea to initialize its starting/default value before doing anything with it. This is especially true for pointers, since many dangerous problems are coming from badly handled pointers (e.g. dangling pointers, use-after-free, wild pointers,...), resulting in segmentation faults and race conditions, and even worse: undefined behaviours.
 
-Only exception is when you use functions with long names. Because of length of function names and its parameters, value initialization can't fit in one single line of a display, breaking it in more lines or hiding rest of it, and then you need to use a horizontal scroll.
+Having values initialized at start can help with readibility of code as well, reducing misunderstanding, vertical size and potential sneaky bugs.
+
+Additionally, it is a practice to initialize variables to their default values/states when we are assuming or predicting an outcome, or just prepare it before we do something.
+
+> I like the idea of RAII (Resource Acquisition In Initialization) from C++ and Rust, but it's impossible to impelemt RAII in C, so we will "immitate" it.
+
+This "rule" can be broken if:
+1. The line where initialization and declaration is too long, making it hard to contain whole line on screen's width. Instead, split declaration and initialization on two (or more) separate lines.
+2. There is no point initializing its starting value when it is hard to assume and determine what is it going to be.
 
 Example:
 ```c
 // Compilant
 enum ErrorCode error = NO_ERROR;
 struct ImageFile *myImage = NULL;
-wchar_t message[MAX_MSG_LENGTH] = get_message_by(server);
-pthread_t threadId; // no explicit need to set initial value
+long long unsigned int sumOfBeans = 0;
+wchar_t *message = get_message_by(server);
+pthread_t threadId; // no explicit need to set initial value because it's pointleess
 
 // Non-compilant
-enum Result loadingResult = load_image_cover_from_audio_file("./songs/O-Zone - Dragonstea Din Tei (Official Music Video).mp3", 100, 100, NULL); // bro i don't have a wide screen monitor
+enum Result loadingResult = load_image_cover_from_audio_file("./songs/O-Zone - Dragonstea Din Tei (Official Music Video).mp3", 100, 100, NULL, 0); // bro i don't have a wide screen monitor
+void *genericHandler; // Wild pointer! It's pointing to an unknown address; can lead to undefined behaviours!
 ```
 
 ## Naming conventions/schemas
 
 When declaring new variables and constants, defining new functions, creating new structures, naming can be hard. Here are rules to help with that.
+
+### If variables are not going to be changed/mutated, then they should be constants instead
+
+It is hard to keep data's integrity to the fullest. Bad use of pointers, accidental change, unexpected mutation, etc.
+
+This is simply here to tell if a variable is going to get changed somewhere later in the code is indeed a mutable variable, and a variable having its value unchanged during its scope it is in can be considered as a constant. If constant value is unchangeable, we won't accidentally reassign it (I bet we all have assigned to a variable instead of comparing if it is equal with something else as an condition in our `if` statements and spend hours depleting nerves over this silly mistake).
+
+> I have took data immutability idea from functional languages like Elm, Haskell and Rust. Those languages enforce immutability, protecting data integrity and huge set of bugs.
+
+Example:
+```c
+// Compilant
+const time_t THAT_TIME_WE_KISSED = time(0); // This constant is expected to remain as such
+long double GpsLocationLatitude = 69.420l; // This variable is expected to be mutated
+// ...
+GpsLocationLatitude = 44.2187l; // Variable is mutated
+printf("Time: %f\n", THAT_TIME_WE_KISSED); // The value remains the same
+
+// Non-compilant
+long double MATH_PI = 3.141596l; // This constant is expected to be mutated???
+time_t *pointerToTheMemories = &THAT_TIME_WE_KISSED; // Variable pointer is referenced to a constant
+*pointerToTheMemories = NULL; // congrats! you now have JS const!!1
+```
 
 ### Names/Identificators should be descriptive to its purpose.
 
