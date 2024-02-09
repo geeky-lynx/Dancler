@@ -26,6 +26,9 @@ target_link_libraries(dancler
 	PRIVATE m
 )
 
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-fstack-protector")
+add_compile_options(-g)
+
  # Including GTK library
 
 target_link_libraries(dancler
