@@ -9,6 +9,8 @@
 5. API
 6. Sources & Literature
 
+> Note: This Table of Contents will be probably changed in the future. Also, since this is in beta, actual content may vary
+
 # Techstack, Philosophy & Vision
 
 This project uses C programming language as the main programming language. Reasons for that is minimalism, performance and lightweightness of the language. There is no need for something huge, like: Adobe Photoshop, Ableton Live, Youtube, etc.
@@ -21,15 +23,19 @@ GTK is GUI toolkit for creating desktop software. It is relatively easy to start
 
 Miniaudio is a single header file written in C by mackron. It is super easy to use and straight forward. It offers both high-level API and low-level API to common audio backends, supports Windows, Macintosh, Linux, BSD, Android, iOS and web/HTML.
 
-CMake is a tool for building and creating cross-platform C/C++ software.
+CMake is a tool for building and creating cross-platform C/C++ software. This is great because you can have only one config file and build your project for GNU/Linux, BSD, Macintosh, Windows or other platforms.
 
-Git is distributed version manager created by Linus Tolvards.
+Git is distributed version manager created by Linus Tolvards. It features easy version editing, collaboration and change tracker.
 
 # Structure
 
+#TODO
+
 In this section will be explained folder structure, file structure, functions and et cetara.
 
-## Arhcitecture
+## Architecture
+
+#TODO
 
 Folder architecture of the repo looks like this:
 
@@ -62,6 +68,8 @@ In `/docs-assets` folder are assets used in [DOCUMENTATION.md](./DOCUMENTATION.m
 
 # Guidelines
 
+#TODO
+
 Guidelines are here to guide developers, contributors and maintainers creating Dancler. They will be divided by categories with rules. Each rule is explained (what, why, how, where, when,...), with some examples to better understand the rule.
 
 ## Defining functions
@@ -79,7 +87,7 @@ This rule does not need to be applied for temporary variables in function.
 Example:
 ```c
 // Compilant
-void merge_mergesort(int arr[], size_t left, size_t middle, size_t right) {
+void merge_mergesort(int array[], size_t left, size_t middle, size_t right) {
     size_t  leftIndex = 0,
             rightIndex = 0,
             leftHalfSize = middle - left + 1,
@@ -170,7 +178,7 @@ It is hard to keep data's integrity to the fullest. Bad use of pointers, acciden
 
 This is simply here to tell if a variable is going to get changed somewhere later in the code is indeed a mutable variable, and a variable having its value unchanged during its scope it is in can be considered as a constant. If constant value is unchangeable, we won't accidentally reassign it (I bet we all have assigned to a variable instead of comparing if it is equal with something else as an condition in our `if` statements and spend hours depleting nerves over this silly mistake).
 
-> I have took data immutability idea from functional languages like Elm, Haskell and Rust. Those languages enforce immutability, protecting data integrity and huge set of bugs.
+> I have took data immutability idea from functional languages like Elm, Haskell and Rust. Those languages enforce immutability, protecting data integrity and preventing from big set of bugs.
 
 Example:
 ```c
@@ -204,148 +212,43 @@ int16_t audioSample16Bit = read_sample_16bit_from_audio_file_at_pcm_frame(FILE *
 _Complex z;
 double temp = 80.21;
 char pass[9] = "password";
-int ping(Connection x);
+int ping(Connection x) {/* ... */}
 ```
 
-### Variables and objects should be named in camelCase
+### Identifier names should be named according to "what are they"
 
-To differentiate variables from functions (which are mostly written in snake_case), variables will be written in camelCase.
+It is important to distinguish variables or constants from functions and structures. In that sense, the following table must be used:
 
-Examples:
-```c
-// Compilant (Good)
-int myLocalVariable;
-Week dayOfWeek = Friday;
-static soundsQueueCounter;
-
-// Non-compilant
-date_t Year;
-ssize_t INDEX = -1;
-bool is_showering = false;
-```
-
-### Constants should be named in SCREAMING_SNAKE_CASE
-
-Most common way to write constants in any language is right in SCREAMING_SNAKE_CASE, like Python, JavaScript, Java (I think), C, and others.
+| Identifiers             | Naming Style               |
+| ----------------------- | -------------------------- |
+| Variables               | camelCase                  |
+| Objects                 | camelCase                  |
+| Constants               | SCREAMING_SNAKE_CASE       |
+| Functions               | snake_case                 |
+| Structures              | PascalCase                 |
+| Unions                  | PascalCase + "_"           |
+| Enumerations            | PascalCase                 |
+| Struct/Enum fields      | camelCase                  |
+| Enum variants           | SCREAMING_SNAKE_CASE       |
+| Preprocessor directives | SCREAMING_SNAKE_CASE + "_" |
+| Source files            | kebab-case                 |
 
 Examples:
 ```c
 // Compilant
-const double NUMBER_PI = 3.14259;
-const long double NATURAL_NUMBER_E = 2.17281828;
-const char8_t FINAL_GRADE = u'A';
-const int const *PERMANENT_POINTER_TO_AUDIO_ENGINE = &audioEngine;
-
-// Non-compilant
-const char leave = 'c';
-const time_t one_time_when_bad_happened_for_humankind = nuke(cities, 2); // discovery of hentai
-const void *somethingOnHeap = (void *) malloc(12);
-const _Bool HasLovePartner = 0;
-```
-
-### Functions should be named in snake_case
-
-Most function names written in GTK and Miniaudio are in snake_case. To make new functions familiar with each other, function names will be in snake_case.
-
-Examples:
-```c
-// Compilant
-int convert_from_string_to_int(const restrict char string[], size_t length);
-wchar_t* get_string_from_clock_now();
-void clear_playlist();
-
-// Non-compilant
-float64_t Rickroll(char *message);
-time_t readTime(restrict float *unixTime);
-_Bool IS_CRYING(struct Person person);
-```
-
-### Structures and enumerations should be named in UpperCamelCase
-
-In other languages like Java, JavaScript, and even Python, usually have class names in UpperCamelCase. To keep this "trend", structs and enums will be named in UpperCamelCase. Also, we want to differentiate from variables, constants, functions,...
-
-Properties of structures should be named in lowerCamelCase, while enumeration values should be named in SCREAMING_SNAKE_CASE.
-
-Also, properties don't need to be very descriptive.
-
-Examples:
-```c
-// Compilant
-struct WorkingPerson {
-    wchar_t firstName[15];
-    wchar_t lastName[15];
-    unsigned short int age;
-    float revenue;
-};
-enum DaysInWeek {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY};
-
-// Non-compilant
-struct my_bro {/* ... */};
-struct shoppingCart {/* ... */};
-enum FEELINGS {/* ... */};
-enum schooldegrees {/* ... */};
-```
-
-### Unions should be named in UpperCamelCase, with `_` at the end
-
-Since unions and structs are very similar, adding `_` as suffix to its type name will put a period that the object is not a struct object.
-
-Properties should be named in lowerCamelCase.
-
-Examples:
-```c
-// Compilant
-union WhatIsOnMind_ {
-    struct Food apples;
-    unsigned char crush[11];
-    short int sheepsCount;
-};
-
-// Non-compilant
-union WorkingOn {
-    struct Job JOB;
-    struct Hobby hobby_at_home;
-    void Nothing;
-}
-```
-
-### Preprocessor definitions should be named in SCREAMING_SNAKE_CASE, with `_` at the end
-
-Since constants are already named in SCREAMING_SNAKE_CASE, underscore (`_`) will be added as suffix to it to make differences between normal constants and preprocessor definitions.
-
-Examples:
-```c
-// Compilant
-#define MAX_STRING_LENGTH_ 1001
-#define SECRET_CODE_ 12345678
-#define SLEEP_(ms) sleep(ms / 1000)
-
-// Non-compilant
-#define postal_code 555
-#define ipAddress "21.266.69.420" // this IP doesn't exist
-#define PainfulTrueFalse rand() % 2 ? true : false
-```
-
-### Files should be named in kebab-case
-
-To make it easier to go through files via terminal (by using CTRL + arrows for an example) and to not use double quotes when writing commands in Bash, Powershell, Zsh,... use kebab-case for files in this repository. This rule is applied to source code, assets (images, videos, audio), Markdown files,...
-
-Files required to have different naming conventions by other programs are excluded from this rule. Some of those files are `CMakeList.txt` and `.gitignore`.
-
-Examples:
-```sh
-# Compilant
-mkdir my-new-directory
-vim gui-buttons.c
-ls # icon-play.svg  icon-stop.svg   icon-pause.svg  svg-to-png.c ...
-
-# Non-compilant
-gcc my first program.c
-gcc "my first program.c"
-clang hello_world.cpp
+int measuredRoomTemperatureCelsius = 42;
+static size_t soundsQueueCounter = queue_size(&soundQueue);
+enum Week dayOfWeek = FRIDAY;
+struct HumanEntity *humanEntity = malloc(48);
+const double BANK_DEBT = -99.999'999; // Digit separator, available in C23 & C++14
+union ColorRGBA_ color = { 0x9FA34077 };
+FILE *userConfigFile = fopen("user-config.txt", "r");
+STDIN_BUFFER_CLEAR_();
 ```
 
 # API
+
+#TODO
 
 Here are located all functions, variables, constants and preprocessor directives, explaining what are they, what is their purpose and how to use.
 
@@ -355,6 +258,7 @@ To get along with C, GTK, Miniaudio. CMake and Git, here are listed some useful 
 
 ## C programming language
 
+Tutorials:
 - [Javapoint](https://www.javatpoint.com/c-programming-language-tutorial)
 - [Geeks For Geeks](https://www.geeksforgeeks.org/c-language-introduction/)
 - [W3School](https://www.w3schools.com/c/c_intro.php)
