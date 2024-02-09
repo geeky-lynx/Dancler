@@ -1,13 +1,19 @@
 #include "../header.h"
 
-void set_volume_in_percents(ma_sound *audioSound, const short volumePercertange);
+int initialize_backend(void);
 
-int load_audio_to_queue(const char filename[], ma_resource_manager *queue, ma_resource_manager_data_source *dataSource, ma_sound *sound, ma_engine *engine);
+int unitialize_backend(void);
 
-int unload_audio_from_queue(ma_resource_manager_data_source *dataSource, ma_sound *sound);
+void set_volume_in_percents(const short volumePercertange);
 
-int toggle_playback(ma_sound *sound);
+int load_audio_to_queue(const char filename[]);
 
-void toggle_loop(ma_sound *sound);
+int unload_audio_from_queue(void);
 
-void toggle_volume(ma_sound *sound);
+int toggle_playback(void);
+
+void toggle_loop(void);
+
+void toggle_volume(void);
+
+int is_audio_loaded(void);
