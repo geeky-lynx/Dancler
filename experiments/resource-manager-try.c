@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <windows.h>
 
 
 #define MINIAUDIO_IMPLEMENTATION
@@ -7,9 +6,13 @@
 #define MA_ENABLE_ONLY_SPECIFIC_BACKENDS
 #ifdef _WIN32
     #define MA_ENABLE_WASAPI
+    #include <windows.h>
+    #define SLEEP(x) Sleep(x)
 #endif
 #ifdef __linux__
     #define MA_ENABLE_PULSEAUDIO
+    #include <unistd.h>
+    #define SLEEP(x) sleep(x / 1000)
 #endif
 #define MA_DEBUG_OUTPUT
 #include "../libs/MiniAudio/miniaudio.h"
@@ -47,7 +50,7 @@ int main() {
     // Sleep(5000);
     ma_sound_start(&sound);
     getchar();
-    Sleep(2000);
+    SLEEP(2000);
     ma_sound_stop(&sound);
     printf("%p\n", sound.pDataSource);
     printf("%p\n", sound.pResourceManagerDataSource);
@@ -68,7 +71,7 @@ int main() {
         return 1;
     }
     ma_sound_start(&sound);
-    Sleep(5000);
+    SLEEP(5000);
     ma_sound_stop(&sound);
     ma_sound_uninit(&sound);
 

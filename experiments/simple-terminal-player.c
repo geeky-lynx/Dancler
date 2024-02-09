@@ -59,6 +59,7 @@ int main(int argc, char *argv[]) {
             case 'p':
                 if (ma_sound_at_end(&sound)) {
                     printf("Old song reached the end. Enter a new song...\n");
+                    ma_sound_stop(&sound);
                     ma_sound_uninit(&sound);
                     isRunning = 0;
                     isLoaded = 0;
