@@ -1,3 +1,23 @@
+# Update no. 1.0.0.4-3
+
+## Commit "Experimentation"
+
+I had a little problem around music "queues"
+
+## Commit "Set debug flags for CMake by default"
+
+This change is going to be applicable during alpha and early beta stages of development.
+
+## Commit "Clearing, defining, refactoring, working on normal API"
+
+You've probably seen `#include "source-file.c"`... Also, backend data is moved to another file from `src/main.c`.
+
+## Commit "Cleanings and minor fixes in documentation"
+
+There were some misspells of words and wacky sentences in documentation. There are also some `#TODO` notices where changes are needed.
+
+Oh, naming conventions are better visually concluded now.
+
 # Update no. 1.0.0.4-2
 
 ## Commit "Im lost"
