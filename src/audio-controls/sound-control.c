@@ -1,7 +1,8 @@
-#ifndef DANCLER_SOUND_CONTROL_DEF_
-#define DANCLER_SOUND_CONTROL_DEF_
+// #ifndef DANCLER_SOUND_CONTROL_DEF_
+// #define DANCLER_SOUND_CONTROL_DEF_
 
 #include "../header.h"
+#include "../miniaudio-config.h"
 
 static bool isLoaded = false;
 static bool isSoundInited = false;
@@ -136,4 +137,4 @@ int is_audio_loaded(void) {
     return isSoundInited;
 }
 
-#endif
+// #endif

@@ -1,7 +1,7 @@
 #include "../header.h"
-#include "../audio-controls/sound-control.c"
+#include "../audio-controls/sound-controls.h"
 
-#pragma gcc poison start_previous_audio start_next_audio
+
 
 size_t playlistIndex = 0;
 size_t playlistSize = 3;

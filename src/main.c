@@ -2,11 +2,12 @@
 #include "./audio-controls/sound-controls.h"
 // #define NO_GUI_
 
-#ifndef NO_GUI_
-#include "./gui/gui-main-window.c"
-#else
-#include "./gui/cli-main-window.c"
-#endif
+// #ifndef NO_GUI_
+// #include "./gui/gui-main-window.c"
+// #else
+// #include "./gui/cli-main-window.c"
+// #endif
+#include "./gui/interface-api.h"
 
 
 int main(int argc, char *argv[]) {

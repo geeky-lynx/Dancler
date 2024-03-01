@@ -1,5 +1,6 @@
 #include "../header.h"
-#include "./gui-playback-controls.c"
+// #include "./gui-playback-controls.c"
+#include "./gui-controls.h"
 
 void initialize_window_layout(GtkApplication *application, gpointer userData) {
     GtkWidget   *mainWindow,
