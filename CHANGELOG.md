@@ -1,3 +1,11 @@
+# Update no. 1.0.0.4-4
+
+## Commit "Minor grammar fix in docs"
+
+## Commit "Compilation order changed in CMakeList.txt"
+
+## Commit "More proper header definitions and inclusions"
+
 # Update no. 1.0.0.4-3
 
 ## Commit "Experimentation"
