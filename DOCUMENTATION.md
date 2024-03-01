@@ -161,7 +161,7 @@ enum ErrorCode error = NO_ERROR;
 struct ImageFile *myImage = NULL;
 long long unsigned int sumOfBeans = 0;
 wchar_t *message = get_message_by(server);
-pthread_t threadId; // no explicit need to set initial value because it's pointleess
+pthread_t threadId; // no explicit need to set initial value because it's pointless
 
 // Non-compilant
 enum Result loadingResult = load_image_cover_from_audio_file("./songs/O-Zone - Dragonstea Din Tei (Official Music Video).mp3", 100, 100, NULL, 0); // bro i don't have a wide screen monitor
