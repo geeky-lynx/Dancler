@@ -9,11 +9,21 @@ pkg_check_modules(GTK REQUIRED gtk4)
 
 add_executable(
 	dancler
+	src/audio-controls/sound-control.c
+	src/gui/gui-playback-controls.c	
+	src/gui/gui-main-window.c
 	src/main.c
 )
 
-# For MacOS, Linux and BSD
+# add_executable(
+# 	danclero
+# 	src/audio-controls/sound-control.c
+# 	src/gui/gui-main-window.c
+# 	src/gui/gui-playback-controls.c
+# )
 
+# For MacOS, Linux and BSD
+# if(defined(unix))
 target_link_libraries(dancler
 	PRIVATE dl
 )
@@ -28,6 +38,8 @@ target_link_libraries(dancler
 
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-fstack-protector")
 add_compile_options(-g)
+add_compile_options(-Wall)
+add_compile_options(-Wextra)
 
  # Including GTK library
 
