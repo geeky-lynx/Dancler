@@ -1,8 +1,9 @@
 // #ifndef DANCLER_SOUND_CONTROL_DEF_
 // #define DANCLER_SOUND_CONTROL_DEF_
 
+#define MINIAUDIO_IMPLEMENTATION
 #include "../header.h"
-#include "../miniaudio-config.h"
+// #include "../miniaudio-config.h"
 
 static bool isLoaded = false;
 static bool isSoundInited = false;
@@ -47,7 +48,7 @@ int unitialize_backend(void) {
 
 
 void set_volume_controls_in_percents(short volumePercertange) {
-    ma_sound_set_volume(&sound, VOLUME_PERCENTAGE / 100.0f);
+    ma_sound_set_volume(&sound, volumePercertange / 100.0f);
     // printf("Dancler Terminal Log: Volume set to %d %%.\n", volumePercertange);
 }
 
@@ -58,12 +59,12 @@ int load_audio_to_queue(const char filename[]) {
     // const ma_result QUEUE_RESULT = ma_resource_manager_data_source_init(queue, filename, 0, NULL, dataSource);
     // if (QUEUE_RESULT == MA_SUCCESS)
     //     isLoaded = true;
-    
+
     printf("2\n");
     const ma_result SOUND_RESULT = ma_sound_init_from_file(&engine, filename, 0, NULL, NULL, &sound);// ma_sound_init_from_data_source(engine, dataSource, 0, NULL, sound);
     if (SOUND_RESULT != MA_SUCCESS)
         return 0;
-    
+
     isSoundInited = true;
     printf("3\n");
     // if (queueResult)
@@ -128,13 +129,13 @@ void toggle_volume(void) {
         ma_sound_set_volume(&sound, oldVolumePercentage);
     else
         ma_sound_set_volume(&sound, 0.0f);
-    
+
     oldVolumePercentage = currentVolume;
 }
 
 
 
-inline int is_audio_loaded(void) {
+extern inline int is_audio_loaded(void) {
     return isSoundInited;
 }
 

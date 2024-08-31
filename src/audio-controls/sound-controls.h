@@ -32,7 +32,7 @@ int unitialize_backend(void);
 void set_volume_in_percents(short volumePercertange);
 
 /*
-  int load_audio_to_queue(const char *filename): Load audio file into Miniaudio Resource Manager from given filepath 
+  int load_audio_to_queue(const char *filename): Load audio file into Miniaudio Resource Manager from given filepath
   Parameters:
     - `filename` (`const char*`): Unix-like filename path to look up for and load into Resource Manager
   Returns: (`int`) Error code from Miniaudio Engine initialization
@@ -86,6 +86,6 @@ void toggle_volume(void);
     - `0`: Audio file / Data source is NOT loaded
     - `1`: Loaded
 */
-inline int is_audio_loaded(void);
+extern inline int is_audio_loaded(void);
 
 #endif // DANCLER_SOUND_CONTROLS_
