@@ -1,5 +1,4 @@
 #include "../header.h"
-// #include "./gui-playback-controls.c"
 #include "./gui-controls.h"
 
 void initialize_window_layout(GtkApplication *application, gpointer userData) {
@@ -94,6 +93,7 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
     playStopButton = gtk_button_new_from_icon_name("dancler-play-stop");
     previousButton = gtk_button_new_from_icon_name("dancler-previous");
     nextButton = gtk_button_new_from_icon_name("dancler-next");
+    // nextButton = gtk
     muteButton = gtk_button_new_from_icon_name("dancler-mute");
     volumeSlider = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
 
