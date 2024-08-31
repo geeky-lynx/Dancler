@@ -1,5 +1,5 @@
-// #ifndef DANCLER_MINIAUDIO_INCLUDED_
-// #define DANCLER_MINIAUDIO_INCLUDED_ 1
+#ifndef DANCLER_MINIAUDIO_INCLUDED_
+#define DANCLER_MINIAUDIO_INCLUDED_ 1
 
 #define MINIAUDIO_IMPLEMENTATION
 #define MA_NO_NULL
@@ -22,4 +22,4 @@
 #endif
 #include "../libs/MiniAudio/miniaudio.h"
 
-// #endif /* DANCLER_MINIAUDIO_INCLUDED_ */
+#endif /* DANCLER_MINIAUDIO_INCLUDED_ */

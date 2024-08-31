@@ -174,11 +174,23 @@ When declaring new variables and constants, defining new functions, creating new
 
 ### If variables are not going to be changed/mutated, then they should be constants instead
 
-It is hard to keep data's integrity to the fullest. Bad use of pointers, accidental change, unexpected mutation, etc.
+It is hard to keep data's integrity to the fullest, especially in C. Bad use of pointers, accidental change, unexpected mutation, race condition, segmentation faults, undefined behaviours, etc.
 
 This is simply here to tell if a variable is going to get changed somewhere later in the code is indeed a mutable variable, and a variable having its value unchanged during its scope it is in can be considered as a constant. If constant value is unchangeable, we won't accidentally reassign it (I bet we all have assigned to a variable instead of comparing if it is equal with something else as an condition in our `if` statements and spend hours depleting nerves over this silly mistake).
 
-> I have took data immutability idea from functional languages like Elm, Haskell and Rust. Those languages enforce immutability, protecting data integrity and preventing from big set of bugs.
+Function parameters, on the other hand, don't need to follow this rule, except if parameters in question are pointers to pieces of memory that don't change their content in function body. Declare those parameters as: `const T *pointerIdentifier` or `const T* pointerIdentifier` (both are the same).
+
+The keyword `const` should be at the start of the variable declaration of scalar types, structures, unions, arrays, or enumerations (Example: `const unsigned id = 7`, `const long measurements[]` `const struct Display display = {/*whatever its fields are*/}`,...)
+
+The keyword `const` depends where it should be put in pointer declarations, as they can mean different things (`T` is a type):
+
+- Pointer to constant: `const T *identifier`
+- Constant pointer to variable: `T* const identifier`
+- Constant pointer to a constant: `const T* const identifier`
+- Pointer to a constant pointer to a variable: `const T* const *identifier`
+- ... and so on.
+
+> I have took data immutability idea from functional languages like Elm, Haskell and Rust. Those languages enforce immutability, protecting data integrity and preventing from big set of bugs. It's pretty cool tho
 
 Example:
 ```c
@@ -195,7 +207,7 @@ time_t *pointerToTheMemories = &THAT_TIME_WE_KISSED; // Variable pointer is refe
 *pointerToTheMemories = NULL; // congrats! you now have JS const!!1
 ```
 
-### Names/Identificators should be descriptive to its purpose.
+### Names/Identificators should describe its purpose (or "self-describing").
 
 Names are used to identificate variables, functions, properties, constants,... and names tell us what they are supposed to do or contain. For variables, what value are they storing and of what type (let's say `temperature` has 60.9f as value, but 60.9f degrees of what? Celsius? Kelvin? Fahrenheit?); for functions, what is it doing (function `play()` can do variety of jobs: play video, audio, game, slideshow, presentation, sex tape, etc.); and so on.
 

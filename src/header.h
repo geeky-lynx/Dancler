@@ -13,9 +13,4 @@
 
 #include <gtk/gtk.h>
 
-// #include "./audio-controls/sound-control.c"
-
-// #include "./gui/gui-playback-controls.c"
-// #include "./gui/gui-playback-information.c"
-
 #endif
