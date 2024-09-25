@@ -4,13 +4,13 @@
 #define DANCLER_GUI_CONTROLS_ 1
 
 /*
-  void play_stop_current_audio(): Toggle audio playback through GUI
+  void play_stop_current_audio(void): Toggle audio playback through GUI
   Parameters:
     - None
   Returns: Nothing
-  
+
 */
-void play_stop_current_audio();
+void play_stop_current_audio(void);
 
 /*
   void start_previous_audio(): Start playing previous audio in playlist/queue
@@ -34,6 +34,6 @@ void start_next_audio(void);
     - None
   Returns: Nothing
 */
-void mute_audio(void);
+extern inline void mute_audio(void);
 
 #endif
