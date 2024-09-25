@@ -120,9 +120,9 @@ size_t convert_int_to_string(int number, char newString[]) {
 }
 ```
 
-### If variables have same data type, write them in the "compact way", with same or similar level of indentation
+### If variables have same data type, write them in the "compact way", with same or similar level of indentation (Optional)
 
-This is somewhat to explain
+This is not strictly necessary, but it is good to have when there are too much variables of same type. It is not a deal-breaker
 
 Example:
 ```c
@@ -166,6 +166,27 @@ pthread_t threadId; // no explicit need to set initial value because it's pointl
 // Non-compilant
 enum Result loadingResult = load_image_cover_from_audio_file("./songs/O-Zone - Dragonstea Din Tei (Official Music Video).mp3", 100, 100, NULL, 0); // bro i don't have a wide screen monitor
 void *genericHandler; // Wild pointer! It's pointing to an unknown address; can lead to undefined behaviours!
+```
+
+### Always initialize pointers! No exceptions!
+
+A lot of problems in C appear because of bad pointer handling, and one of them is *wild pointer*. To avoid wild pointers, pointers will always be initialized.
+
+If address is unknown, use either `NULL` or `nullptr` (C23 standard)
+
+Example:
+```c
+// Compilant
+ma_engine *audioEngine = NULL;
+char **songsList = malloc(50);
+GtkWidget *volumeSlider = NULL;
+time_t* const timeCreated = &file->dcreate;
+
+// Non-compilant
+FILE *myFile; 
+uint8_t *byte;
+const long double *approximation;
+const char* const password;
 ```
 
 ## Naming conventions/schemas
@@ -264,13 +285,15 @@ STDIN_BUFFER_CLEAR_();
 
 Here are located all functions, variables, constants and preprocessor directives, explaining what are they, what is their purpose and how to use.
 
+You can find concise & short descriptions in corresponsing header files.
+
 # Sources & Literature
 
 To get along with C, GTK, Miniaudio. CMake and Git, here are listed some useful hyperlinks.
 
 ## C programming language
 
-Tutorials:
+Tutorials (if you are a bit lazy):
 - [Javapoint](https://www.javatpoint.com/c-programming-language-tutorial)
 - [Geeks For Geeks](https://www.geeksforgeeks.org/c-language-introduction/)
 - [W3School](https://www.w3schools.com/c/c_intro.php)
