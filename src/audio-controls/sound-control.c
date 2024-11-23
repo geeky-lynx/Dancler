@@ -1,4 +1,3 @@
-#define MINIAUDIO_IMPLEMENTATION
 #include "../header.h"
 
 static bool isLoaded = false;
