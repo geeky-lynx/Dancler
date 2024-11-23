@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
-const char myDomain = "com.github.heroes_of_balkan.dancler";
+static const char *myDomain = "com.github.heroes_of_balkan.dancler";
 
 static void initialize_user_interface(GtkApplication *gtkUserInterface, gpointer userData) {
   GtkWidget *mainWindow = gtk_application_window_new(gtkUserInterface);
