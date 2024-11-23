@@ -3,19 +3,20 @@
 
 
 
-bool isPlaying = false;
-size_t playlistIndex = 0;
-size_t playlistSize = 3;
+static bool isPlaying = false;
+static size_t playlistIndex = 0;
+static size_t playlistSize = 3;
 const char *playlist[] = {"FH.mp3", "ShesHomeless.mp3", "BG-HS.mp3"};
 
 
 
-void play_stop_current_audio(void) {
+void play_stop_current_audio(GtkWidget *titleLabel) {
     const int RESULT = is_audio_loaded();
     if (!RESULT) {
         load_audio_to_queue(playlist[playlistIndex]);
     }
     toggle_playback();
+    gtk_label_set_text(GTK_LABEL(titleLabel), playlist[playlistIndex]);
     isPlaying = !isPlaying;
 }
 

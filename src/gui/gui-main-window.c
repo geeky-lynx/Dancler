@@ -7,7 +7,8 @@
 #define DEFAULT_AUTHORS_ "Unknown authors"
 #define DEFAULT_ZERO_TIMER_ "0:00"
 
-GtkAdjustment playbackVolume; // To be used for volume slider
+static GtkAdjustment *playbackTime; // To be used for time slider
+static GtkAdjustment *playbackVolume; // To be used for volume slider
 
 void initialize_window_layout(GtkApplication *application, gpointer userData) {
     /* GUI Objects in use (or about to get purpose) */
@@ -42,6 +43,9 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
                 *playlistTable = NULL;
 
 
+    /* Set up GTK Adjustments */
+    playbackTime = gtk_adjustment_new(0.0, 0.0, 10.0, 1.0, 1.0, 1.0);
+    playbackVolume = gtk_adjustment_new(100.0, 0.0, 100.0, 1.0, 1.0, 1.0);
 
     /* Creating base for main window */
     mainWindow = gtk_application_window_new(application);
@@ -101,7 +105,8 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
 
     currentTimeLabel = gtk_label_new(DEFAULT_ZERO_TIMER_);
     totalTimeLabel = gtk_label_new(DEFAULT_ZERO_TIMER_);
-    timeSlider = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
+    timeSlider = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, playbackTime);
+    gtk_widget_set_size_request(timeSlider, 500, -1);
 
 
 
@@ -115,8 +120,9 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
     previousButton = gtk_button_new_from_icon_name("media-skip-backward"); // or "dancler-previous"
     nextButton = gtk_button_new_from_icon_name("media-skip-forward"); // or "dancler-next"
     muteButton = gtk_button_new_from_icon_name("audio-volume-muted"); // or "dancler-mute"
-    volumeSlider = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
-    g_signal_connect_swapped(G_OBJECT(playStopButton), "clicked", G_CALLBACK(play_stop_current_audio), NULL);
+    volumeSlider = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, playbackVolume);
+    gtk_widget_set_size_request(volumeSlider, 150, -1);
+    g_signal_connect_swapped(G_OBJECT(playStopButton), "clicked", G_CALLBACK(play_stop_current_audio), titleLabel);
     g_signal_connect_swapped(G_OBJECT(previousButton), "clicked", G_CALLBACK(start_previous_audio), NULL);
     g_signal_connect_swapped(G_OBJECT(nextButton), "clicked", G_CALLBACK(start_next_audio), NULL);
     g_signal_connect_swapped(G_OBJECT(muteButton), "clicked", G_CALLBACK(mute_audio), NULL);
