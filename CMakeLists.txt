@@ -13,7 +13,6 @@ find_package(PkgConfig REQUIRED)
 find_package(GTK REQUIRED)
 
 pkg_check_modules(GTK REQUIRED gtk4)
-# pkg_check_modules(PORTAUDIO REQUIRED portaudio-2.0)
 
 add_executable(
 	dancler
@@ -25,9 +24,9 @@ add_executable(
 
 
 # For MacOS, Linux and BSD
-# if(defined(unix))
+#if (defined(__unix__))
 target_link_libraries(dancler
-	PRIVATE dl
+		PRIVATE dl
 )
 
 target_link_libraries(dancler
@@ -37,6 +36,7 @@ target_link_libraries(dancler
 target_link_libraries(dancler
 	PRIVATE m
 )
+# endif()
 
 
 # Including GTK library
