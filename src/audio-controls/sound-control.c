@@ -1,26 +1,21 @@
-// #ifndef DANCLER_SOUND_CONTROL_DEF_
-// #define DANCLER_SOUND_CONTROL_DEF_
-
 #define MINIAUDIO_IMPLEMENTATION
 #include "../header.h"
-// #include "../miniaudio-config.h"
 
 static bool isLoaded = false;
 static bool isSoundInited = false;
 
-float oldVolumePercentage = 0.0f;
+static float oldVolumePercentage = 0.0f;
 
-ma_result result;
-ma_sound sound;
-ma_engine engine;
-ma_resource_manager resourceManager;
-ma_resource_manager_config resourceManagerConfig;
-ma_resource_manager_data_source dataSource;
+static ma_sound sound;
+static ma_engine engine;
+static ma_resource_manager resourceManager;
+static ma_resource_manager_config resourceManagerConfig;
+static ma_resource_manager_data_source dataSource;
 
 
 
 int initialize_backend(void) {
-    result = ma_engine_init(NULL, &engine);
+    ma_result result = ma_engine_init(NULL, &engine);
     if (result != MA_SUCCESS) {
         // perror("Failed to initialize audio engine.\n");
         return result;
@@ -50,7 +45,7 @@ int unitialize_backend(void) {
 
 void set_volume_controls_in_percents(short volumePercertange) {
     ma_sound_set_volume(&sound, volumePercertange / 100.0f);
-    // printf("Dancler Terminal Log: Volume set to %d %%.\n", volumePercertange);
+    // Implicit cast from `int` to `float`
 }
 
 
@@ -82,7 +77,7 @@ int load_audio_to_queue(const char filename[]) {
 int unload_audio_from_queue(void) {
     ma_sound_uninit(&sound);
     // const ma_result QUEUE_RESULT = ma_resource_manager_data_source_uninit(&dataSource);
-    constexpr int QUEUE_RESULT = MA_SUCCESS; // since resource manager isn't yet in use...
+    const int QUEUE_RESULT = MA_SUCCESS; // since resource manager isn't yet in use...
     // if (queueResult)
     //     printf("Dancler Terminal Log: Audio file has been removed from queue.\n");
     // else
@@ -128,12 +123,7 @@ void toggle_loop(void) {
 
 void toggle_volume(void) {
     const float currentVolume = ma_sound_get_volume(&sound);
-
-    if (0.0f == currentVolume)
-        ma_sound_set_volume(&sound, oldVolumePercentage);
-    else
-        ma_sound_set_volume(&sound, 0.0f);
-
+    ma_sound_set_volume(&sound, oldVolumePercentage);
     oldVolumePercentage = currentVolume;
 }
 
@@ -142,5 +132,3 @@ void toggle_volume(void) {
 extern inline int is_audio_loaded(void) {
     return isSoundInited;
 }
-
-// #endif
