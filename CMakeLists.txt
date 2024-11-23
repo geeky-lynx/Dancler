@@ -3,11 +3,15 @@ project(dancler C)
 
 # set(CMAKE_CXX_COMPILER "gcc")
 set(CMAKE_C_STANDARD 23)
-set(CMAKE_CXX_FLAGS_DEBUG_INIT "-fstack-protector")
-add_compile_options(-g)
 add_compile_options(-Wall)
 add_compile_options(-Wextra)
-add_compile_options(-Og) # Optimization in debug mode
+if (PRODUCTION_)
+    add_compile_options(-O3) # Optimization in production
+else (PRODUCTION_)
+    set(CMAKE_CXX_FLAGS_DEBUG_INIT "-fstack-protector")
+    add_compile_options(-g)
+    add_compile_options(-Og) # Optimization in debug mode
+endif (PRODUCTION_)
 
 find_package(PkgConfig REQUIRED)
 find_package(GTK REQUIRED)
@@ -16,6 +20,7 @@ pkg_check_modules(GTK REQUIRED gtk4)
 
 add_executable(
 	dancler
+	src/audio-controls/miniaudio-definitions.c
 	src/audio-controls/sound-control.c
 	src/gui/gui-playback-controls.c
 	src/gui/gui-main-window.c
@@ -24,19 +29,19 @@ add_executable(
 
 
 # For MacOS, Linux and BSD
-#if (defined(__unix__))
-target_link_libraries(dancler
-		PRIVATE dl
-)
+if (UNIX)
+    target_link_libraries(dancler
+    	PRIVATE dl pthread m
+    )
 
-target_link_libraries(dancler
-	PRIVATE pthread
-)
+    # Linking -latomic for 32-bit ARM processors
+    if (_M_ARM32)
+        target_link_libraries(dancler
+            PRIVATE atomic
+        )
+    endif (_M_ARM32)
 
-target_link_libraries(dancler
-	PRIVATE m
-)
-# endif()
+endif (UNIX)
 
 
 # Including GTK library
