@@ -26,6 +26,13 @@
     #define MA_ENABLE_SNDIO
     #define MA_ENABLE_AUDIO4
 #endif
+
+// TODO: Check if this works, or needs more focus
+// If Apple is bitching, this one might be for you
+#ifdef __APPLE__
+    #define MA_NO_RUNTIME_LINKING
+#endif
+
 #include "../libs/MiniAudio/miniaudio.h"
 
 #include <gtk/gtk.h>
