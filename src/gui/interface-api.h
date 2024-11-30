@@ -1,17 +1,9 @@
 #include "../header.h"
 
-#ifndef NO_GUI_
-    #define PARAMTYPE1_ void
-#else
-    #define PARAMETYPE1_ GtkApplication
-#endif
-
 #ifndef DANCLER_INTERFACE_API_
 #define DANCLER_INTERFACE_API_ 1
 
-#pragma gcc poison load_audio_file_cover start_previous_audio start_next_audio
-
-int initialize_window_layout(PARAMTYPE1_ *application, void *data);
+int initialize_window_layout(GtkApplication *application, void *data);
 
 void play_stop_current_audio(struct ProgramConfig *config);
 
