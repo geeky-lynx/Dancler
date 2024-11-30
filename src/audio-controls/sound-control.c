@@ -42,9 +42,8 @@ int unitialize_backend(void) {
 
 
 
-void set_volume_controls_in_percents(short volumePercertange) {
+void set_volume_in_percents(float volumePercertange) {
     ma_sound_set_volume(&sound, volumePercertange / 100.0f);
-    // Implicit cast from `int` to `float`
 }
 
 

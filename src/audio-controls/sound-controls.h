@@ -24,12 +24,12 @@ int initialize_backend(void);
 int unitialize_backend(void);
 
 /*
-  int set_volume_in_percents(const short volumePercentage): Change volume of program's playback audio
+  int set_volume_in_percents(float volumePercentage): Change volume of program's playback audio
   Parameters:
-    - `volumePercentage` (`const short`): Volume percentage to be set. Shall be in [0, 100] range
+    - `volumePercentage` (`float`): Volume percentage to be set. Shall be in [0.0f, 100.0f] range
   Returns: None
 */
-void set_volume_in_percents(short volumePercertange);
+void set_volume_in_percents(float volumePercertange);
 
 /*
   int load_audio_to_queue(const char *filename): Load audio file into Miniaudio Resource Manager from given filepath
