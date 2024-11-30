@@ -123,9 +123,10 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
     volumeSlider = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, playbackVolume);
     gtk_widget_set_size_request(volumeSlider, 150, -1);
     g_signal_connect_swapped(G_OBJECT(playStopButton), "clicked", G_CALLBACK(play_stop_current_audio), titleLabel);
-    g_signal_connect_swapped(G_OBJECT(previousButton), "clicked", G_CALLBACK(start_previous_audio), NULL);
-    g_signal_connect_swapped(G_OBJECT(nextButton), "clicked", G_CALLBACK(start_next_audio), NULL);
+    g_signal_connect_swapped(G_OBJECT(previousButton), "clicked", G_CALLBACK(start_previous_audio), titleLabel);
+    g_signal_connect_swapped(G_OBJECT(nextButton), "clicked", G_CALLBACK(start_next_audio), titleLabel);
     g_signal_connect_swapped(G_OBJECT(muteButton), "clicked", G_CALLBACK(mute_audio), NULL);
+    g_signal_connect_swapped(G_OBJECT(volumeSlider), "value-changed", G_CALLBACK(change_volume), playbackVolume);
 
 
 
