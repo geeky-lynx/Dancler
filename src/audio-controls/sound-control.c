@@ -130,3 +130,22 @@ void toggle_volume(void) {
 extern inline int is_audio_loaded(void) {
     return isSoundInited;
 }
+
+
+
+int jump_to_seconds(float seconds) {
+    const ma_uint32 SAMPLE_RATE = ma_engine_get_sample_rate(&engine);
+    const ma_uint64 NEW_CURSOR_POS = SAMPLE_RATE * seconds;
+    // Implicit conversion from `float` to `unsigned long long`
+    return ma_sound_seek_to_pcm_frame(&sound, NEW_CURSOR_POS);
+}
+
+
+
+float retrieve_audio_length_seconds(void) {
+    float audioLength = 0;
+    const ma_result RESULT = ma_sound_get_length_in_seconds(&sound, &audioLength);
+    if (RESULT != MA_SUCCESS)
+        return RESULT + 0.0f; // Cast to `float`, in a nicer way
+    return audioLength;
+}

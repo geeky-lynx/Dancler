@@ -88,4 +88,25 @@ void toggle_volume(void);
 */
 extern inline int is_audio_loaded(void);
 
+/*
+  int jump_to_seconds(float seconds): Go to specific
+  Parameters:
+    - seconds
+  Returns: (int) Result of jump
+    - `0` (`MA_SUCCESS`): Successful jump to given second
+    - Non `0`: Failure
+*/
+int jump_to_seconds(unsigned seconds);
+
+/*
+  float retrieve_audio_length_seconds(void): Get loaded audio's length in seconds
+  Parameters:
+    - None
+  Returns: (float) Total length of loaded audio or error
+    - > `0.0f`: Total amount of seconds loaded audio source has
+    - `0.0f`: Unexpected value
+    - < '0.0f`: Failed to retrieve shit (error)
+*/
+float retrieve_audio_length_seconds(void);
+
 #endif // DANCLER_SOUND_CONTROLS_
