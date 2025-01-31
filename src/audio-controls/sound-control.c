@@ -35,7 +35,7 @@ int unitialize_backend(void) {
     ma_resource_manager_uninit(&resourceManager);
     ma_engine_uninit(&engine);
     if (isSoundInited)
-        ma_sound_uninit(&sound);
+        ma_sound_uninit(&sound); // Assume end of program; no need to change this variable
     ma_data_source_uninit(&dataSource);
     return 0;
 }
@@ -49,23 +49,16 @@ void set_volume_in_percents(float volumePercertange) {
 
 
 int load_audio_to_queue(const char filename[]) {
-    // printf("1\n");
     // const ma_result QUEUE_RESULT = ma_resource_manager_data_source_init(queue, filename, 0, NULL, dataSource);
     // if (QUEUE_RESULT == MA_SUCCESS)
     //     isLoaded = true;
 
-    // printf("2\n");
     // ma_sound_init_from_data_source(engine, dataSource, 0, NULL, sound);
     const ma_result SOUND_RESULT = ma_sound_init_from_file(&engine, filename, 0, NULL, NULL, &sound);
     if (SOUND_RESULT != MA_SUCCESS)
-        return 0;
+        return SOUND_RESULT;
 
     isSoundInited = true;
-    // printf("3\n");
-    // if (queueResult)
-        // printf("Dancler Terminal Log: Audio file \"%s\" has been successfully added to queue.\n", filename);
-    // else
-    //     printf("Dancler Terminal Log: Audio file \"%s\" has failed adding to queue.\n", filename);
     // return (const int)QUEUE_RESULT;
     return 0;
 }
@@ -73,13 +66,11 @@ int load_audio_to_queue(const char filename[]) {
 
 
 int unload_audio_from_queue(void) {
+    if (isSoundInited)
+        return -1;
     ma_sound_uninit(&sound);
     // const ma_result QUEUE_RESULT = ma_resource_manager_data_source_uninit(&dataSource);
     const int QUEUE_RESULT = MA_SUCCESS; // since resource manager isn't yet in use...
-    // if (queueResult)
-    //     printf("Dancler Terminal Log: Audio file has been removed from queue.\n");
-    // else
-    //     printf("Dancler Terminal Log: Audio file could not be removed from queue.\n"); // TODO: maybe change text bro
     isSoundInited = false;
     return QUEUE_RESULT;
 }
@@ -87,22 +78,24 @@ int unload_audio_from_queue(void) {
 
 
 int toggle_playback(void) {
-    // printf("isLoaded: %d\n", isLoaded);
     if (isLoaded)
         return -1;
 
+    ma_result playbackResult = -1;
+
+    // TODO: Probably needs better looking code
     const ma_bool32 IS_PLAYING = ma_sound_is_playing(&sound);
-    // printf("IS_PLAYING: %d\n", IS_PLAYING);
     if (IS_PLAYING) {
-        // printf("da\n");
-        return ma_sound_stop(&sound);
-        // printf("Dancler Terminal Log: Sound has stopped playing.\n");
+        playbackResult = ma_sound_stop(&sound);
+        if (playbackResult != MA_SUCCESS)
+            return -1;
+        return IS_PLAYING;
     }
-    else {
-        // printf("ne\n");
-        return ma_sound_start(&sound);
-        // printf("Dancler Terminal Log: Sound has started playing.\n");
-    }
+    
+    playbackResult = ma_sound_start(&sound);
+    if (playbackResult != MA_SUCCESS)
+        return -1;
+    
     return IS_PLAYING;
 }
 
@@ -111,18 +104,14 @@ int toggle_playback(void) {
 void toggle_loop(void) {
     const ma_bool32 IS_LOOPING = ma_sound_is_looping(&sound);
     ma_sound_set_looping(&sound, !IS_LOOPING);
-    // if (IS_LOOPING)
-    //     printf("Dancler Terminal Log: Looping is on.\n");
-    // else
-    //     printf("Dancler Terminal Log: Looping is on.\n");
 }
 
 
 
 void toggle_volume(void) {
-    const float currentVolume = ma_sound_get_volume(&sound);
+    const float CURRENT_VOLUME = ma_sound_get_volume(&sound);
     ma_sound_set_volume(&sound, oldVolumePercentage);
-    oldVolumePercentage = currentVolume;
+    oldVolumePercentage = CURRENT_VOLUME;
 }
 
 
@@ -135,8 +124,8 @@ extern inline int is_audio_loaded(void) {
 
 int jump_to_seconds(float seconds) {
     const ma_uint32 SAMPLE_RATE = ma_engine_get_sample_rate(&engine);
-    const ma_uint64 NEW_CURSOR_POS = SAMPLE_RATE * seconds;
     // Implicit conversion from `float` to `unsigned long long`
+    const ma_uint64 NEW_CURSOR_POS = SAMPLE_RATE * seconds;
     return ma_sound_seek_to_pcm_frame(&sound, NEW_CURSOR_POS);
 }
 
