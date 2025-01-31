@@ -10,13 +10,44 @@
 static GtkAdjustment *playbackTime; // To be used for time slider
 static GtkAdjustment *playbackVolume; // To be used for volume slider
 
+static void initialize_ui_values(); // Initialized all required values
+static void create_playback_ui(GtkWidget *windowBox); // Forms information & controls for current playback
+static void create_playlist_ui(GtkWidget *windowBox); // Forms playlist table (list of songs)
+
+
+
 void initialize_window_layout(GtkApplication *application, gpointer userData) {
     /* GUI Objects in use (or about to get purpose) */
     GtkWidget   *mainWindow = NULL,
-                *mainBox = NULL,
+                *mainBox = NULL;
 
-                *playbackBox = NULL,
-                *playlistBox = NULL,
+    initialize_ui_values();
+
+    /* Creating base for main window */
+    mainWindow = gtk_application_window_new(application);
+    gtk_window_set_title(GTK_WINDOW(mainWindow), "Dancler");
+    gtk_window_set_default_size(GTK_WINDOW(mainWindow), 600, 400);
+
+    mainBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_window_set_child(GTK_WINDOW(mainWindow), mainBox);
+
+    create_playback_ui(mainBox);
+    create_playlist_ui(mainBox);
+
+    gtk_window_present(GTK_WINDOW(mainWindow));
+}
+
+
+
+static void initialize_ui_values() {
+    playbackTime = gtk_adjustment_new(0.0, 0.0, 10.0, 1.0, 1.0, 1.0);
+    playbackVolume = gtk_adjustment_new(100.0, 0.0, 100.0, 1.0, 1.0, 1.0);
+}
+
+
+
+static void create_playback_ui(GtkWidget *windowBox) {
+    GtkWidget   *playbackBox = NULL,
 
                 *infoAndControlBox = NULL,
                 *infoBox = NULL,
@@ -36,36 +67,16 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
                 *nextButton = NULL,
                 *previousButton = NULL,
                 *muteButton = NULL,
-                *volumeSlider = NULL,
+                *volumeSlider = NULL;
 
-                *sidebar = NULL,
-                *playlistStack = NULL,
-                *playlistTable = NULL;
-
-
-    /* Set up GTK Adjustments */
-    playbackTime = gtk_adjustment_new(0.0, 0.0, 10.0, 1.0, 1.0, 1.0);
-    playbackVolume = gtk_adjustment_new(100.0, 0.0, 100.0, 1.0, 1.0, 1.0);
-
-    /* Creating base for main window */
-    mainWindow = gtk_application_window_new(application);
-    gtk_window_set_title(GTK_WINDOW(mainWindow), "Dancler");
-    gtk_window_set_default_size(GTK_WINDOW(mainWindow), 600, 400);
-
-    mainBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_window_set_child(GTK_WINDOW(mainWindow), mainBox);
-
-
-
+    
     /* Upper half of window (dedicated to controls & playback information) */
     playbackBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_widget_set_halign(playbackBox, GTK_ALIGN_START);
     gtk_widget_set_valign(playbackBox, GTK_ALIGN_START);
 
 
-
     /* Creating audio cover GUI elements */
-
     coverBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_widget_set_halign(coverBox, GTK_ALIGN_START);
     gtk_widget_set_valign(coverBox, GTK_ALIGN_START);
@@ -73,7 +84,6 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
     coverImage = gtk_image_new();
     gtk_image_set_from_file(GTK_IMAGE(coverImage), DEFAULT_COVER_IMAGE_);
     gtk_widget_set_size_request(GTK_WIDGET(coverImage), 200, 200);
-
 
 
     /* Creating audio playback information GUI elements (duh) */
@@ -92,7 +102,6 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
     gtk_widget_set_hexpand(GTK_WIDGET(authorsLabel), true);
 
 
-
     /* Creating time stuff GUI elements */
     controlsBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_halign(controlsBox, GTK_ALIGN_START);
@@ -107,7 +116,6 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
     totalTimeLabel = gtk_label_new(DEFAULT_ZERO_TIMER_);
     timeSlider = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, playbackTime);
     gtk_widget_set_size_request(timeSlider, 500, -1);
-
 
 
     /* Creating playback control GUI elements */
@@ -128,19 +136,8 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
     g_signal_connect_swapped(G_OBJECT(muteButton), "clicked", G_CALLBACK(mute_audio), NULL);
     g_signal_connect_swapped(G_OBJECT(volumeSlider), "value-changed", G_CALLBACK(change_volume), playbackVolume);
 
-
-
-    /* Forming playlist table (with deprecated TreeView) */
-    playlistBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    sidebar = gtk_stack_sidebar_new();
-    playlistStack = gtk_stack_new();
-    playlistTable = gtk_tree_view_new();
-    gtk_stack_add_child(GTK_STACK(playlistStack), playlistTable);
-    gtk_stack_sidebar_set_stack(GTK_STACK_SIDEBAR(sidebar), GTK_STACK(playlistStack));
-
-
-
-    /* Putting everything on window */
+    
+    /* Put everything on the window */
     gtk_box_append(GTK_BOX(coverBox), coverImage);
     gtk_box_append(GTK_BOX(playbackBox), coverBox);
 
@@ -167,11 +164,28 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
 
     gtk_box_append(GTK_BOX(playbackBox), infoAndControlBox);
 
-    gtk_box_append(GTK_BOX(mainBox), playbackBox);
+    gtk_box_append(GTK_BOX(windowBox), playbackBox);
+}
+
+
+
+static void create_playlist_ui(GtkWidget *windowBox) {
+    GtkWidget   *playlistBox = NULL,
+                *sidebar = NULL,
+                *playlistStack = NULL,
+                *playlistTable = NULL;
+  
+    /* Forming playlist table (with deprecated TreeView) */
+    playlistBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    sidebar = gtk_stack_sidebar_new();
+    playlistStack = gtk_stack_new();
+    playlistTable = gtk_tree_view_new();
+    gtk_stack_add_child(GTK_STACK(playlistStack), playlistTable);
+    gtk_stack_sidebar_set_stack(GTK_STACK_SIDEBAR(sidebar), GTK_STACK(playlistStack));
+
+
+    /* Putting everything on window */
 
     gtk_box_append(GTK_BOX(playlistBox), sidebar);
-
-
-
-    gtk_window_present(GTK_WINDOW(mainWindow));
+    gtk_box_append(GTK_BOX(windowBox), playlistBox);
 }
