@@ -7,9 +7,20 @@
 #include <stdbool.h>
 #include <errno.h>
 
-// #define MINIAUDIO_IMPLEMENTATION // This one defines functions. Don't use in headers!
+#ifdef PRODUCTION_
+    #define DEBUG_ASSERT_(x) /* No runtime check */
+    /* In case `static_assert` causes some symbol errors */
+    #ifndef static_assert
+        #define static_assert(x, msg)
+    #endif
+#else
+    #include <assert.h>
+    #define MA_DEBUG_OUTPUT
+    #define DEBUG_ASSERT_(x) assert(x)
+#endif
+
+
 #define MA_NO_NULL
-#define MA_DEBUG_OUTPUT
 #define MA_ENABLE_ONLY_SPECIFIC_BACKENDS
 #if defined(_WIN32)
     #define MA_ENABLE_WASAPI
