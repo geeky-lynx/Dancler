@@ -111,6 +111,16 @@ void toggle_volume(void);
 extern inline int is_audio_loaded(void);
 
 /*
+  int is_audio_playing(): Tells if audio file / data source is loaded into Miniaudio Project Manager
+  Parameters:
+    - None
+  Returns: (int) State of Miniaudio Project Manager's data source / load
+    - `0`: Audio file / Data source is NOT loaded
+    - `1`: Loaded
+*/
+extern inline int is_audio_playing(void);
+
+/*
   int jump_to_seconds(float seconds): Go to specific
   Parameters:
     - seconds

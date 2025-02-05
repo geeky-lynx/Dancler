@@ -146,6 +146,12 @@ extern inline int is_audio_loaded(void) {
 
 
 
+extern inline int is_audio_playing(void) {
+    return ma_sound_is_playing(&sound);
+}
+
+
+
 int jump_to_seconds(float seconds) {
     const ma_uint32 SAMPLE_RATE = ma_engine_get_sample_rate(&engine);
     // Implicit conversion from `float` to `unsigned long long`

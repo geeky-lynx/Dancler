@@ -4,7 +4,6 @@
 
 
 
-static bool isPlaying = false;
 static size_t playlistIndex = 0;
 static size_t playlistSize = 3;
 const char *playlist[] = {"FH.mp3", "ShesHomeless.mp3", "BG-HS.mp3"};
@@ -18,7 +17,6 @@ void play_stop_current_audio(GtkWidget *titleLabel) {
     }
     toggle_playback();
     gtk_label_set_text(GTK_LABEL(titleLabel), playlist[playlistIndex]);
-    isPlaying = !isPlaying;
 }
 
 
