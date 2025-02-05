@@ -52,6 +52,28 @@ int load_audio_to_queue(const char filename[]);
 int unload_audio_from_queue(void);
 
 /*
+  int start_playback(): Plays playback of loaded audio
+  Parameters:
+    - None
+  Returns: (int) Previous playback state (negatives for errors)
+    - `0`: Was playing
+    - `1`: Successful play
+    - `-1`: Error: No loaded audio
+*/
+int start_playback(void);
+
+/*
+  int stop_playback(): Stops/pauses playback of loaded audio
+  Parameters:
+    - None
+  Returns: (int) Previous playback state (negatives for errors)
+    - `0`: Already stopped
+    - `1`: Successful stop
+    - `-1`: Error: No loaded audio
+*/
+int stop_playback(void);
+
+/*
   int toggle_playback(): Plays or stops playback of loaded audio from Miniaudio Resource Manager
   Parameters:
     - None

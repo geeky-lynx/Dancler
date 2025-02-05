@@ -77,6 +77,30 @@ int unload_audio_from_queue(void) {
 
 
 
+int start_playback() {
+    if (isLoaded)
+        return -1;
+
+    if (!ma_sound_is_playing(&sound))
+        return ma_sound_start(&sound);
+
+    return 0;
+}
+
+
+
+int stop_playback() {
+    if (isLoaded)
+        return -1;
+
+    if (ma_sound_is_playing(&sound))
+        return ma_sound_stop(&sound);
+
+    return 0;
+}
+
+
+
 int toggle_playback(void) {
     if (isLoaded)
         return -1;
@@ -91,11 +115,11 @@ int toggle_playback(void) {
             return -1;
         return IS_PLAYING;
     }
-    
+
     playbackResult = ma_sound_start(&sound);
     if (playbackResult != MA_SUCCESS)
         return -1;
-    
+
     return IS_PLAYING;
 }
 

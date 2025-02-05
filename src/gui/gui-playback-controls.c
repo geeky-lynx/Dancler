@@ -45,7 +45,7 @@ void start_previous_audio(GtkWidget *titleLabel) {
 void start_next_audio(GtkWidget *titleLabel) {
     const int RESULT = is_audio_loaded();
     if (RESULT) {
-        toggle_playback();
+        stop_playback();
         unload_audio_from_queue();
     }
 
@@ -55,7 +55,7 @@ void start_next_audio(GtkWidget *titleLabel) {
 
     // alt: playlistIndex = (playlistIndex + 1) % playlistSize
     load_audio_to_queue(playlist[playlistIndex]);
-    toggle_playback();
+    start_playback();
     gtk_label_set_text(GTK_LABEL(titleLabel), playlist[playlistIndex]);
 }
 
