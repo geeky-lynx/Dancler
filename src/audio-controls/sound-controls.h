@@ -131,7 +131,7 @@ extern inline int is_audio_playing(void);
 int jump_to_seconds(unsigned seconds);
 
 /*
-  float retrieve_audio_length_seconds(void): Get loaded audio's length in seconds
+  float retrieve_audio_length_in_seconds(void): Get loaded audio's length in seconds
   Parameters:
     - None
   Returns: (float) Total length of loaded audio or error
@@ -139,6 +139,6 @@ int jump_to_seconds(unsigned seconds);
     - `0.0f`: Unexpected value
     - < '0.0f`: Failed to retrieve shit (error)
 */
-float retrieve_audio_length_seconds(void);
+float retrieve_audio_length_in_seconds(void);
 
 #endif // DANCLER_SOUND_CONTROLS_

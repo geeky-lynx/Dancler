@@ -66,9 +66,7 @@ extern inline void mute_audio(void) {
 
 
 void change_volume(const GtkAdjustment *VOLUME_ADJUSTMENT_SRC) {
-    if (VOLUME_ADJUSTMENT_SRC == NULL) {
-        printf("wtf???\n");
-    }
+    DEBUG_ASSERT_(VOLUME_ADJUSTMENT_SRC != NULL);
 
     const float WHOLE_PERCENTAGE = (float)gtk_adjustment_get_value(VOLUME_ADJUSTMENT_SRC);
     set_volume_in_percents(WHOLE_PERCENTAGE);

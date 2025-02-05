@@ -161,10 +161,10 @@ int jump_to_seconds(float seconds) {
 
 
 
-float retrieve_audio_length_seconds(void) {
+float retrieve_audio_length_in_seconds(void) {
     float audioLength = 0;
     const ma_result RESULT = ma_sound_get_length_in_seconds(&sound, &audioLength);
     if (RESULT != MA_SUCCESS)
-        return RESULT + 0.0f; // Cast to `float`, in a nicer way
+        return (float)RESULT;
     return audioLength;
 }
