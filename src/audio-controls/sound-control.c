@@ -7,36 +7,20 @@ static float oldVolumePercentage = 0.0f;
 
 static ma_sound sound;
 static ma_engine engine;
-static ma_resource_manager resourceManager;
-static ma_resource_manager_config resourceManagerConfig;
-static ma_resource_manager_data_source dataSource;
 
 
 
 int initialize_backend(void) {
-    ma_result result = ma_engine_init(NULL, &engine);
-    if (result != MA_SUCCESS) {
-        // perror("Failed to initialize audio engine.\n");
-        return result;
-    }
+    return ma_engine_init(NULL, &engine);
 
-    resourceManagerConfig = ma_resource_manager_config_init();
-    result = ma_resource_manager_init(&resourceManagerConfig, &resourceManager);
-    if (result != MA_SUCCESS) {
-        // perror("Failed to initialize resource manager.\n");
-        return result;
-    }
-    return 0;
 }
 
 
 
 int unitialize_backend(void) {
-    ma_resource_manager_uninit(&resourceManager);
     ma_engine_uninit(&engine);
     if (isSoundInited)
         ma_sound_uninit(&sound); // Assume end of program; no need to change this variable
-    ma_data_source_uninit(&dataSource);
     return 0;
 }
 
@@ -49,17 +33,10 @@ void set_volume_in_percents(float volumePercertange) {
 
 
 int load_audio_to_queue(const char filename[]) {
-    // const ma_result QUEUE_RESULT = ma_resource_manager_data_source_init(queue, filename, 0, NULL, dataSource);
-    // if (QUEUE_RESULT == MA_SUCCESS)
-    //     isLoaded = true;
-
-    // ma_sound_init_from_data_source(engine, dataSource, 0, NULL, sound);
     const ma_result SOUND_RESULT = ma_sound_init_from_file(&engine, filename, 0, NULL, NULL, &sound);
     if (SOUND_RESULT != MA_SUCCESS)
         return SOUND_RESULT;
-
     isSoundInited = true;
-    // return (const int)QUEUE_RESULT;
     return 0;
 }
 
@@ -69,10 +46,8 @@ int unload_audio_from_queue(void) {
     if (isSoundInited)
         return -1;
     ma_sound_uninit(&sound);
-    // const ma_result QUEUE_RESULT = ma_resource_manager_data_source_uninit(&dataSource);
-    const int QUEUE_RESULT = MA_SUCCESS; // since resource manager isn't yet in use...
     isSoundInited = false;
-    return QUEUE_RESULT;
+    return MA_SUCCESS;
 }
 
 
