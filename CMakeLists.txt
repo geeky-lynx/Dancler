@@ -22,8 +22,8 @@ add_executable(
 	dancler
 	src/audio-controls/miniaudio-definitions.c
 	src/audio-controls/sound-control.c
-	src/gui/gui-playback-controls.c
-	src/gui/gui-main-window.c
+	src/gui/playback-panel-controls.c
+	src/gui/main-window.c
 	src/main.c
 )
 

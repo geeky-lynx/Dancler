@@ -1,7 +1,7 @@
-#include "../header.h"
-
 #ifndef DANCLER_SOUND_CONTROLS_
 #define DANCLER_SOUND_CONTROLS_ 1
+
+#include "../header.h"
 
 /*
   int initialize_backend(): Initializes Miniaudio Engine for audio shit
