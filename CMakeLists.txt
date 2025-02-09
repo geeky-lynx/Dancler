@@ -23,6 +23,7 @@ add_executable(
 	src/audio-controls/miniaudio-definitions.c
 	src/audio-controls/sound-control.c
 	src/gui/playback-panel-controls.c
+	src/gui/playlist-panel.c
 	src/gui/main-window.c
 	src/main.c
 )

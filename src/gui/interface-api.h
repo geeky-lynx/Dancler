@@ -3,12 +3,12 @@
 
 #include "../header.h"
 
-int initialize_window_layout(GtkApplication *application, void *data);
+void initialize_window_layout(GtkApplication *application, gpointer userData);
 
-void play_stop_current_audio(struct ProgramConfig *config);
+void initialize_ui_values(); // Initialized all required values
 
-void load_audio_file_cover();
+void create_playback_ui(GtkWidget *windowBox); // Forms information & controls for current playback
 
-void create_information_panel(GtkWidget *mainWindow, char titleName[], char authorName[]);
+void create_playlist_ui(GtkWidget *windowBox); // Forms playlist table (list of songs)
 
 #endif
