@@ -2,17 +2,9 @@
 #include "./gui-controls.h"
 #include "./interface-api.h"
 
-
-
-
-
-
-
 void initialize_window_layout(GtkApplication *application, gpointer userData) {
     GtkWidget   *mainWindow = NULL,
                 *mainBox = NULL;
-
-    initialize_ui_values();
 
     /* Creating base for main window */
     mainWindow = gtk_application_window_new(application);
@@ -26,10 +18,4 @@ void initialize_window_layout(GtkApplication *application, gpointer userData) {
     create_playlist_ui(mainBox);
 
     gtk_window_present(GTK_WINDOW(mainWindow));
-}
-
-
-
-void initialize_ui_values() {
-
 }
