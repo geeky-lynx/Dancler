@@ -1,18 +1,6 @@
+.helix
 .vscode
-
-FH.mp3
-FH.wav
+.zed
 
 build/*
 !build/assets
-
-libs/MiniAudio/.github
-libs/MiniAudio/examples
-libs/MiniAudio/extras
-libs/MiniAudio/research
-libs/MiniAudio/resources
-libs/MiniAudio/resources
-libs/MiniAudio/tests
-libs/MiniAudio/website
-
-libs/MiniAudio/miniaudio-outdated.h
