@@ -1,5 +1,5 @@
 #define MINIAUDIO_IMPLEMENTATION
-#include "../header.h"
+#include "./miniaudio-include.h"
 // Separate Miniaudio function definitions
 // from Dancler's source files.
 

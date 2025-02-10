@@ -3,6 +3,8 @@
 
 #include "../header.h"
 
+#include <gtk/gtk.h>
+
 /*
   void play_stop_current_audio(GtkWidget *titleLabel): Toggle audio playback through GUI
   Parameters:

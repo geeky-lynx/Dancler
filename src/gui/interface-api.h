@@ -3,6 +3,8 @@
 
 #include "../header.h"
 
+#include <gtk/gtk.h>
+
 /*
     void initialize_window_layout(GtkApplication *application, gpointer userData): Creates user GUI
     Parameters:
