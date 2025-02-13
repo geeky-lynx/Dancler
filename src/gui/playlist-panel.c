@@ -27,6 +27,7 @@ static void add_items();
 static GtkTreeModel *create_items_model();
 static gboolean separator_row(GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
 static void add_columns(GtkTreeView *treeView, GtkTreeModel *items_model);
+static void play_from_playlist(const GtkTreeView *tree);
 
 
 
@@ -58,9 +59,10 @@ void create_playlist_ui(GtkWidget *windowBox) {
     itemsModel = create_items_model();
     playlistTable = gtk_tree_view_new_with_model(itemsModel);
     gtk_widget_set_vexpand(playlistTable, true);
-    auto tmp = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlistTable));
-    gtk_tree_selection_set_mode(tmp, GTK_SELECTION_SINGLE);
+    auto selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlistTable));
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scrollableArea), playlistTable);
+    g_signal_connect_swapped(G_OBJECT(playlistTable), "row-activated", G_CALLBACK(play_from_playlist), playlistTable);
 
     add_columns(GTK_TREE_VIEW(playlistTable), itemsModel);
 
@@ -180,4 +182,31 @@ static void add_columns(GtkTreeView *treeView, GtkTreeModel *items_model) {
         "text", COLUMN_ITEM_TITLE,
         NULL
     );
+}
+
+
+
+
+
+
+static void crap(const GtkTreeView *tree) {
+    printf("\nligma burek\n");
+    GtkTreeIter iter;
+    GtkTreeView *treeView = tree;
+    GtkTreeModel *model = gtk_tree_view_get_model(treeView);
+    GtkTreeSelection *selection = gtk_tree_view_get_selection(treeView);
+    auto row = gtk_tree_selection_get_selected(selection, NULL, &iter);
+
+    if (row) {
+        int i;
+        GtkTreePath *path;
+        path = gtk_tree_model_get_path(model, &iter);
+        i = gtk_tree_path_get_indices(path)[0];
+        Item tmp = g_array_index(songs, Item, i);
+        printf("%d - %s - %s\n", tmp.num, tmp.filepath, tmp.title);
+
+    }
+    else {
+        printf("eeerm what the fuck?\n");
+    }
 }

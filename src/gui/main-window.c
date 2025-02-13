@@ -1,5 +1,4 @@
 #include "../header.h"
-#include "./gui-controls.h"
 #include "./interface-api.h"
 
 void initialize_window_layout(GtkApplication *application, gpointer userData) {

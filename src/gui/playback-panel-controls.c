@@ -1,6 +1,6 @@
+#include "../header.h"
 #include "gui-controls.h"
 #include "../audio-controls/sound-controls.h"
-#include <stdio.h>
 
 
 
