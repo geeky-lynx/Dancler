@@ -189,7 +189,7 @@ static void add_columns(GtkTreeView *treeView, GtkTreeModel *items_model) {
 
 
 
-static void crap(const GtkTreeView *tree) {
+static void play_from_playlist(const GtkTreeView *tree) {
     printf("\nligma burek\n");
     GtkTreeIter iter;
     GtkTreeView *treeView = tree;
