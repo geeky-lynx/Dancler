@@ -35,13 +35,13 @@ GermanString gerstr_init_from_cstring(const char *restrict src) {
     if (src == nullptr)
         return (GermanString){0};
 
-    GermanString new = {0};
+    GermanString newString = {0};
     uint32_t srcLength = cstring_get_length(src);
-    int result = copy_from_cstring(&new, srcLength, src);
+    int result = copy_from_cstring(&newString, srcLength, src);
 
     DEBUG_ASSERT_(result == true);
 
-    return new;
+    return newString;
 }
 
 
@@ -50,31 +50,31 @@ GermanString gerstr_init_from_gerstring(const GermanString *src) {
     if (src == nullptr)
         return (GermanString){0};
 
-    GermanString new = { .length = src->length, 0 };
+    GermanString newString = { .length = src->length, 0 };
     unsigned char *allocated;
 
     // Short string:
-    if (new.length <= GERMAN_STRING_MAX_SHORT) {
-        for (uint16_t index = 0; index < new.length; index++)
-            new.content[index] = src->content[index];
-        return new;
+    if (newString.length <= GERMAN_STRING_MAX_SHORT) {
+        for (uint16_t index = 0; index < newString.length; index++)
+            newString.content[index] = src->content[index];
+        return newString;
     }
 
     // Long string
-    allocated = malloc(new.length * sizeof(unsigned char));
+    allocated = malloc(newString.length * sizeof(unsigned char));
     if (allocated == nullptr)
         return (GermanString){0};
 
-    const uint16_t REST_LENGTH = new.length - GERMAN_STRING_PREFIX_SIZE;
+    const uint16_t REST_LENGTH = newString.length - GERMAN_STRING_PREFIX_SIZE;
 
     for (uint16_t index = 0; index < GERMAN_STRING_PREFIX_SIZE; index++)
-        new.prefix[index] = src->prefix[index];
+        newString.prefix[index] = src->prefix[index];
 
-    new.rest = allocated;
+    newString.rest = allocated;
     for (uint16_t index = 0; index < REST_LENGTH; index++)
-        new.rest[index] = src->rest[index];
+        newString.rest[index] = src->rest[index];
 
-    return new;
+    return newString;
 }
 
 
