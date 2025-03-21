@@ -15,7 +15,6 @@
 */
 
 #include "../header.h"
-#include <stdint.h>
 #include "./german-string.h"
 
 static inline uint16_t cstring_get_length(const char *restrict src);
