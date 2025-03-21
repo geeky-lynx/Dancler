@@ -58,7 +58,7 @@ In `/docs-assets` folder are assets used in [DOCUMENTATION.md](./DOCUMENTATION.m
 
 `/experiments` don't affect anything in this repository. It's here just for some experiments to test some library's feature, prototyping, innovate,...
 
-`/libs` contain libraries required for program to work, like Miniaudio. 
+`/libs` contain libraries required for program to work, like Miniaudio.
 
 `/src` is where all the source code is available. All code that is written has to be located here.
 
@@ -95,7 +95,7 @@ void merge_mergesort(int array[], size_t left, size_t middle, size_t right) {
 
     int arrayLeftHalf[leftHalfSize],
         arrayRightHalf[rightHalfSize];
-    // ... 
+    // ...
 }
 
 // Non-compilant
@@ -113,7 +113,7 @@ size_t convert_int_to_string(int number, char newString[]) {
     size_t right = length;
 
     // Reverse string
-    while (left < right) 
+    while (left < right)
         newString[left] = newString[right];
 
     return length;
@@ -183,7 +183,7 @@ GtkWidget *volumeSlider = NULL;
 time_t* const timeCreated = &file->dcreate;
 
 // Non-compilant
-FILE *myFile; 
+FILE *myFile;
 uint8_t *byte;
 const long double *approximation;
 const char* const password;
@@ -258,6 +258,7 @@ It is important to distinguish variables or constants from functions and structu
 | Objects                 | camelCase                  |
 | Constants               | SCREAMING_SNAKE_CASE       |
 | Functions               | snake_case                 |
+| Labels                  | snake_case + "_"           |
 | Structures              | PascalCase                 |
 | Unions                  | PascalCase + "_"           |
 | Enumerations            | PascalCase                 |
