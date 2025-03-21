@@ -20,4 +20,18 @@ struct SongInfo {
     };
 };
 
+enum SongInfoColumn {
+    COLUMN_TRACK_NUMBER,
+    COLUMN_TITLE,
+    COLUMN_AUTHOR,
+    COLUMN_ALBUM,
+    COLUMN_GENRE,
+    COLUMN_YEAR,
+    COLUMN_RATING,
+    COLUMN_BITRATE,
+    COLUMN_DURATIONS_SECONDS,
+
+    NUMBER_OF_COLUMNS /* Number of "visible" fields for playlist  */
+}
+
 #endif /* DANCLER_SONG_INFORMATION_ */
