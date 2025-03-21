@@ -11,6 +11,7 @@
         - gerstr_concatenate_gerstring
     2. Change function parameter types to support non-nullable values
     3. Place debug asserts
+    4. Test for edge cases pls
 */
 
 #include "../header.h"
@@ -388,6 +389,409 @@ bool gerstr_is_alphanumeric(const GermanString *self) {
     }
 
     return true;
+}
+
+
+
+bool gerstr_find_substring(const GermanString *self, const char *substring, uint16_t *foundAt) {
+    if (self == nullptr || substring == nullptr)
+        return false;
+
+    uint16_t index = 0;
+    uint16_t charactersLeft = self->length;
+    const unsigned char *iter = self->content;
+    const unsigned char *tmp = (const unsigned char*)substring;
+
+    if (self->length > GERMAN_STRING_MAX_SHORT)
+        goto search_through_long_string_;
+
+    // Short string
+    while (*tmp) {
+        if (charactersLeft--)
+            return false;
+
+        if (*iter == *tmp)
+            tmp++;
+
+        else {
+            index = iter - self->content + 1;
+            tmp = (const unsigned char*)substring;
+        }
+
+        iter++;
+    }
+
+    *foundAt = index;
+    return true;
+
+
+    // Long string
+    search_through_long_string_:
+
+    while (*tmp && iter >= self->content + GERMAN_STRING_PREFIX_SIZE) {
+        if (charactersLeft--)
+            return false;
+
+        if (*iter == *tmp)
+            tmp++;
+
+        else {
+            index = iter - self->prefix + 1;
+            tmp = (const unsigned char*)substring;
+        }
+
+        iter++;
+    }
+
+    iter = self->rest;
+
+    while (*tmp) {
+        if (charactersLeft--)
+            return false;
+
+        if (*iter == *tmp)
+            tmp++;
+
+        else {
+            index = iter - self->rest + 1 + GERMAN_STRING_PREFIX_SIZE;
+            tmp = (const unsigned char*)substring;
+        }
+
+        iter++;
+    }
+
+    *foundAt = index;
+    return true;
+}
+
+
+
+int gerstr_compare_with_cstring(const GermanString *self, const char *src) {
+    if (self == nullptr || src == nullptr)
+        return -1;
+
+    const char *iterLeft = (const char*)self->content;
+    const char *iterRight = src;
+
+    // Short string
+    if (self->length <= GERMAN_STRING_MAX_SHORT) {
+        while (*iterLeft && *iterRight) {
+            if (*iterLeft != *iterRight)
+                return *iterLeft - *iterRight;
+            iterLeft++;
+            iterRight++;
+        }
+        return *iterLeft - *iterRight;
+    }
+
+    int prefixCharsLeft = GERMAN_STRING_PREFIX_SIZE;
+    while (*iterLeft && *iterRight && prefixCharsLeft--) {
+        if (*iterLeft != *iterRight)
+            return *iterLeft - *iterRight;
+        iterLeft++;
+        iterRight++;
+    }
+
+    iterLeft = (const char*)self->rest;
+    while (*iterLeft && *iterRight && prefixCharsLeft--) {
+        if (*iterLeft != *iterRight)
+            return *iterLeft - *iterRight;
+        iterLeft++;
+        iterRight++;
+    }
+
+    return *iterLeft - *iterRight;
+}
+
+
+
+int gerstr_compare_with_gerstring(const GermanString *self, const GermanString *src) {
+    if (self->length != src->length)
+        return -1;
+
+    uint16_t index = 0;
+
+    // Short string
+    if (self->length <= GERMAN_STRING_MAX_SHORT) {
+        while (index < self->length) {
+            if (self->content[index] != src->content[index])
+                return self->content[index] - src->content[index];
+            index++;
+        }
+        return 0;
+    }
+
+    // Long string
+    while (index < GERMAN_STRING_MAX_SHORT) {
+        if (self->prefix[index] != src->prefix[index])
+            return self->prefix[index] - src->prefix[index];
+        index++;
+    }
+
+    index = 0;
+    const uint16_t REST_LENGTH = self->length - GERMAN_STRING_PREFIX_SIZE;
+    while (index < REST_LENGTH) {
+        if (self->rest[index] != src->rest[index])
+            return self->rest[index] - src->rest[index];
+        index++;
+    }
+
+    return 0;
+}
+
+
+
+bool gerstr_to_lowercase(GermanString *self) {
+    if (self == nullptr)
+        return false;
+
+    uint16_t index = 0;
+
+    // Short string
+    if (self->length <= GERMAN_STRING_MAX_SHORT) {
+        while (index < self->length) {
+            unsigned char tmp = self->content[index];
+            self->content[index++] |= ' ' * ('A' <= tmp && tmp <= 'Z');
+        }
+
+        return true;
+    }
+
+    // Long string
+    while (index < GERMAN_STRING_PREFIX_SIZE) {
+        unsigned char tmp = self->prefix[index];
+        self->prefix[index++] |= ' ' * ('A' <= tmp && tmp <= 'Z');
+    }
+
+    index = 0;
+    while (index < self->length - GERMAN_STRING_PREFIX_SIZE) {
+        unsigned char tmp = self->rest[index];
+        self->rest[index++] |= ' ' * ('A' <= tmp && tmp <= 'Z');
+    }
+
+    return true;
+}
+
+
+
+bool gerstr_to_uppercase(GermanString *self) {
+    if (self == nullptr)
+        return false;
+
+    uint16_t index = 0;
+
+    // Short string
+    if (self->length <= GERMAN_STRING_MAX_SHORT) {
+        while (index < self->length) {
+            unsigned char tmp = self->content[index];
+            self->content[index++] &= ~(' ' * ('a' <= tmp && tmp <= 'z'));
+        }
+
+        return true;
+    }
+
+    // Long string
+    while (index < GERMAN_STRING_PREFIX_SIZE) {
+        unsigned char tmp = self->prefix[index];
+        self->prefix[index++] &= ~(' ' * ('a' <= tmp && tmp <= 'z'));
+    }
+
+    index = 0;
+    while (index < self->length - GERMAN_STRING_PREFIX_SIZE) {
+        unsigned char tmp = self->rest[index];
+        self->rest[index++] &= ~(' ' * ('a' <= tmp && tmp <= 'z'));
+    }
+
+    return true;
+}
+
+
+
+int gerstr_copy_from_cstring(GermanString *self, const char *src) {
+    if (self == nullptr || src == nullptr)
+        return -1;
+
+    if (self->length > GERMAN_STRING_MAX_SHORT)
+        free(self->rest);
+
+    *self = gerstr_init_from_cstring(src);
+
+    if (self->length == 0)
+        return -1;
+
+    return 0;
+}
+
+
+
+int gerstr_copy_from_gerstring(GermanString *self, const GermanString *src) {
+    if (self == nullptr || src == nullptr)
+        return -1;
+
+    if (self->length > GERMAN_STRING_MAX_SHORT)
+        free(self->rest);
+
+    *self = gerstr_init_from_gerstring(src);
+
+    if (self->length == 0)
+        return -1;
+
+    return 0;
+}
+
+
+
+int gerstr_concatenate_cstring(GermanString *self, const char *src) {
+    if (self == nullptr || src == nullptr)
+        return -1;
+
+    const uint16_t SRC_LENGTH = cstring_get_length(src);
+    const uint16_t NEW_LENGTH = self->length + SRC_LENGTH;
+
+    // Short string
+    if (NEW_LENGTH <= GERMAN_STRING_MAX_SHORT) {
+        uint16_t index = self->length;
+        while (index < NEW_LENGTH)
+            self->content[index++] = *src++;
+        self->length = NEW_LENGTH;
+        return 0;
+    }
+
+    // Long string, used to be short
+    if (self->length <= GERMAN_STRING_PREFIX_SIZE) {
+        unsigned char temporary[sizeof(void*)] = {0};
+        uint16_t tmpLength = 0;
+        uint16_t index = GERMAN_STRING_PREFIX_SIZE;
+        while (index < self->length)
+            temporary[tmpLength++] = self->content[index++];
+
+        unsigned char *allocated = (unsigned char*)malloc(tmpLength + SRC_LENGTH);
+        if (allocated == nullptr)
+            return -1;
+
+        self->rest = allocated;
+
+        index = 0;
+        while (index < tmpLength)
+            *allocated++ = temporary[index++];
+
+        while (index < NEW_LENGTH)
+            *allocated++ = *src++;
+
+        return 0;
+    }
+
+    // Long string, still long string
+    unsigned char *reallocated = (unsigned char*)realloc(
+        self->rest,
+        NEW_LENGTH - GERMAN_STRING_PREFIX_SIZE
+    );
+
+    if (reallocated == nullptr)
+        return -1;
+
+    self->rest = reallocated;
+    uint16_t charsAt = self->length;
+    while (charsAt++ < NEW_LENGTH)
+        *reallocated++ = *src++;
+
+    return 0;
+}
+
+
+
+int gerstr_concatenate_gerstring(GermanString *self, const GermanString *src) {
+    if (self == nullptr || src == nullptr)
+        return -1;
+
+    const uint16_t NEW_LENGTH = self->length + src->length;
+
+    // Short string
+    if (NEW_LENGTH <= GERMAN_STRING_MAX_SHORT) {
+        uint16_t srcIndex = 0;
+        while (self->length <= NEW_LENGTH)
+            self->content[self->length++] = src->content[srcIndex++];
+        self->length = NEW_LENGTH;
+        return 0;
+    }
+
+    // Long string, still long string
+    if (self->length < GERMAN_STRING_MAX_SHORT) {
+        unsigned char *reallocated = realloc(
+            self->rest,
+            NEW_LENGTH - GERMAN_STRING_PREFIX_SIZE
+        );
+
+        if (reallocated == nullptr)
+            return -1;
+
+        self->rest = reallocated;
+
+        // `src` is a short string
+        if (src->length <= GERMAN_STRING_MAX_SHORT) {
+            uint16_t charsAt = self->length;
+            uint16_t srcIndex = 0;
+            while (srcIndex < src->length)
+                self->rest[charsAt++] = src->content[srcIndex++];
+            self->length = NEW_LENGTH;
+            return 0;
+        }
+
+        // `src` is a long string
+        uint16_t charsAt = self->length;
+        uint16_t srcIndex = 0;
+        while (srcIndex < GERMAN_STRING_PREFIX_SIZE)
+            self->rest[charsAt++] = src->prefix[srcIndex++];
+
+        srcIndex = 0;
+        while (srcIndex < src->length - GERMAN_STRING_PREFIX_SIZE)
+            self->rest[charsAt++] = src->content[srcIndex++];
+
+        self->length = NEW_LENGTH;
+        return 0;
+    }
+
+    // Long string, used to be short
+    unsigned char temporary[sizeof(void*)] = {0};
+    uint16_t tmpLength = 0;
+    uint16_t index = GERMAN_STRING_PREFIX_SIZE;
+    while (index < self->length)
+        temporary[tmpLength++] = self->content[index++];
+
+    unsigned char *allocated = (unsigned char*)malloc(tmpLength + src->length);
+    if (allocated == nullptr)
+        return -1;
+
+    self->rest = allocated;
+
+    index = 0;
+    while (index < tmpLength) {
+        self->rest[index] = temporary[index];
+        index++;
+    }
+
+    if (src->length <= GERMAN_STRING_MAX_SHORT) {
+        uint16_t srcIndex = 0;
+        while (srcIndex < src->length)
+            self->rest[index++] = src->content[srcIndex++];
+
+        self->length = NEW_LENGTH;
+        return 0;
+    }
+
+    uint16_t srcIndex = 0;
+    while (srcIndex < GERMAN_STRING_PREFIX_SIZE)
+        self->rest[index++] = src->prefix[srcIndex++];
+
+    srcIndex = 0;
+    while (srcIndex < src->length - GERMAN_STRING_PREFIX_SIZE)
+        self->rest[index++] = src->rest[srcIndex++];
+
+    self->length = NEW_LENGTH;
+    return 0;
+
+
+    return 0;
 }
 
 

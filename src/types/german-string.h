@@ -68,7 +68,7 @@ bool gerstr_is_alphanumeric(const GermanString *self);
 
 
 
-uint32_t gerstr_find_substring(const GermanString *self, const char *substring);
+bool gerstr_find_substring(const GermanString *self, const char *substring, uint16_t *foundAt);
 
 int gerstr_compare_with_cstring(const GermanString *self, const char *src);
 
@@ -76,9 +76,9 @@ int gerstr_compare_with_gerstring(const GermanString *self, const GermanString *
 
 
 
-int gerstr_to_lowercase(GermanString *self);
+bool gerstr_to_lowercase(GermanString *self);
 
-int gerstr_to_uppercase(GermanString *self);
+bool gerstr_to_uppercase(GermanString *self);
 
 
 
