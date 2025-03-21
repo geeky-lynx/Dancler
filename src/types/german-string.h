@@ -46,6 +46,10 @@ GermanString gerstr_init_from_cstring(const char *restrict src);
 
 GermanString gerstr_init_from_gerstring(const GermanString *restrict src);
 
+bool gerstr_uninit(GermanString *self);
+
+bool gerstr_uninit_zero(GermanString *self);
+
 
 
 int gerstr_to_cstring(const GermanString *self, char **dest);

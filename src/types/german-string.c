@@ -79,6 +79,42 @@ GermanString gerstr_init_from_gerstring(const GermanString *src) {
 
 
 
+bool gerstr_uninit(GermanString *self) {
+    if (self == nullptr)
+        return false;
+
+    if (self->length > GERMAN_STRING_MAX_SHORT)
+        free(self->rest); // Free heap-allocated space for long strings
+
+    self->length = 0;
+
+    return true;
+}
+
+
+
+bool gerstr_uninit_zero(GermanString *self) {
+    if (self == nullptr)
+        return false;
+
+    uint16_t index = 0;
+    if (self->length > GERMAN_STRING_MAX_SHORT) {
+        while (index < self->length - GERMAN_STRING_PREFIX_SIZE)
+            self->rest[index++] = '\0';
+        free(self->rest); // Free heap-allocated space for long strings
+    }
+
+    index = 0;
+    while (index <= GERMAN_STRING_MAX_SHORT)
+        self->content[index++] = '\0';
+
+    self->length = 0;
+
+    return true;
+}
+
+
+
 int gerstr_to_cstring(const GermanString *self, char **dest) {
     if (self == nullptr)
         return -1;
