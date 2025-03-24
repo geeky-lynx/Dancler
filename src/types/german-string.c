@@ -22,8 +22,7 @@ GermanString gerstr_init_empty(void) {
 
 
 GermanString gerstr_init_from_cstring(const char src[static restrict 1]) {
-    if (src == nullptr)
-        return (GermanString){0};
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
 
     GermanString newString = {0};
     uint32_t srcLength = cstring_get_length(src);
@@ -37,8 +36,7 @@ GermanString gerstr_init_from_cstring(const char src[static restrict 1]) {
 
 
 GermanString gerstr_init_from_gerstring(const GermanString src[static restrict 1]) {
-    if (src == nullptr)
-        return (GermanString){0};
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
 
     GermanString newString = { .length = src->length };
     unsigned char *allocated;
@@ -70,8 +68,7 @@ GermanString gerstr_init_from_gerstring(const GermanString src[static restrict 1
 
 
 bool gerstr_uninit(GermanString self[static restrict 1]) {
-    if (self == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
 
     if (self->length > GERMAN_STRING_MAX_SHORT)
         free(self->rest); // Free heap-allocated space for long strings
@@ -84,8 +81,7 @@ bool gerstr_uninit(GermanString self[static restrict 1]) {
 
 
 bool gerstr_uninit_zero(GermanString self[static restrict 1]) {
-    if (self == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
 
     uint16_t index = 0;
     if (self->length > GERMAN_STRING_MAX_SHORT) {
@@ -106,8 +102,8 @@ bool gerstr_uninit_zero(GermanString self[static restrict 1]) {
 
 
 bool gerstr_to_cstring(const GermanString self[static restrict 1], char *dest[static restrict 1]) {
-    if (self == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
 
     char *allocated = malloc(sizeof(unsigned char) * self->length);
     if (allocated == nullptr)
@@ -141,8 +137,8 @@ bool gerstr_to_cstring(const GermanString self[static restrict 1], char *dest[st
 
 bool gerstr_to_cstring_buffered(const GermanString self[static restrict 1], char dest[static restrict 1]) {
     // Assume the user has allocated enough memory
-    if (self == nullptr || dest == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(dest != nullptr, "Passed parameter `dest` is NULL; expected a non-NULL");
 
     // Short string
     if (self->length <= GERMAN_STRING_MAX_SHORT) {
@@ -169,8 +165,7 @@ bool gerstr_to_cstring_buffered(const GermanString self[static restrict 1], char
 
 
 bool gerstr_is_lowercase(const GermanString self[static restrict 1]) {
-    if (self == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
 
     unsigned char tmp;
 
@@ -205,8 +200,7 @@ bool gerstr_is_lowercase(const GermanString self[static restrict 1]) {
 
 
 bool gerstr_is_uppercase(const GermanString self[static restrict 1]) {
-    if (self == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
 
     unsigned char tmp;
 
@@ -241,8 +235,7 @@ bool gerstr_is_uppercase(const GermanString self[static restrict 1]) {
 
 
 bool gerstr_is_alphabetic(const GermanString self[static restrict 1]) {
-    if (self == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
 
     unsigned char tmp;
 
@@ -286,8 +279,7 @@ bool gerstr_is_alphabetic(const GermanString self[static restrict 1]) {
 
 
 bool gerstr_is_numeric(const GermanString self[static restrict 1]) {
-    if (self == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
 
     unsigned char tmp;
 
@@ -321,8 +313,7 @@ bool gerstr_is_numeric(const GermanString self[static restrict 1]) {
 
 
 bool gerstr_is_hexadecimal(const GermanString self[static restrict 1]) {
-    if (self == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
 
     // Short string
     if (self->length <= GERMAN_STRING_MAX_SHORT) {
@@ -370,8 +361,7 @@ bool gerstr_is_hexadecimal(const GermanString self[static restrict 1]) {
 
 
 bool gerstr_is_alphanumeric(const GermanString self[static restrict 1]) {
-    if (self == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
 
     // Short string
     if (self->length <= GERMAN_STRING_MAX_SHORT) {
@@ -419,8 +409,9 @@ bool gerstr_is_alphanumeric(const GermanString self[static restrict 1]) {
 
 
 bool gerstr_find_substring(const GermanString self[static restrict 1], const char substring[static restrict 1], uint16_t foundAt[static restrict 1]) {
-    if (self == nullptr || substring == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(substring != nullptr, "Passed parameter `substring` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(foundAt != nullptr, "Passed parameter `foundAt` is NULL; expected a non-NULL");
 
     uint16_t index = 0;
     uint16_t charactersLeft = self->length;
@@ -492,8 +483,8 @@ bool gerstr_find_substring(const GermanString self[static restrict 1], const cha
 
 
 int gerstr_compare_with_cstring(const GermanString self[static restrict 1], const char src[static restrict 1]) {
-    if (self == nullptr || src == nullptr)
-        return -1;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
 
     const char *iterLeft = (const char*)self->content;
     const char *iterRight = src;
@@ -531,6 +522,9 @@ int gerstr_compare_with_cstring(const GermanString self[static restrict 1], cons
 
 
 int gerstr_compare_with_gerstring(const GermanString self[static restrict 1], const GermanString src[static restrict 1]) {
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
+
     if (self->length != src->length)
         return -1;
 
@@ -567,8 +561,7 @@ int gerstr_compare_with_gerstring(const GermanString self[static restrict 1], co
 
 
 bool gerstr_to_lowercase(GermanString self[static restrict 1]) {
-    if (self == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
 
     uint16_t index = 0;
 
@@ -600,8 +593,7 @@ bool gerstr_to_lowercase(GermanString self[static restrict 1]) {
 
 
 bool gerstr_to_uppercase(GermanString self[static restrict 1]) {
-    if (self == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
 
     uint16_t index = 0;
 
@@ -633,8 +625,8 @@ bool gerstr_to_uppercase(GermanString self[static restrict 1]) {
 
 
 bool gerstr_copy_from_cstring(GermanString self[static restrict 1], const char src[static restrict 1]) {
-    if (self == nullptr || src == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
 
     if (self->length > GERMAN_STRING_MAX_SHORT)
         free(self->rest);
@@ -650,8 +642,8 @@ bool gerstr_copy_from_cstring(GermanString self[static restrict 1], const char s
 
 
 bool gerstr_copy_from_gerstring(GermanString self[static restrict 1], const GermanString src[static restrict 1]) {
-    if (self == nullptr || src == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
 
     if (self->length > GERMAN_STRING_MAX_SHORT)
         free(self->rest);
@@ -667,8 +659,8 @@ bool gerstr_copy_from_gerstring(GermanString self[static restrict 1], const Germ
 
 
 bool gerstr_concatenate_cstring(GermanString self[static restrict 1], const char src[static restrict 1]) {
-    if (self == nullptr || src == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
 
     const uint16_t SRC_LENGTH = cstring_get_length(src);
     const uint16_t NEW_LENGTH = self->length + SRC_LENGTH;
@@ -726,8 +718,8 @@ bool gerstr_concatenate_cstring(GermanString self[static restrict 1], const char
 
 
 bool gerstr_concatenate_gerstring(GermanString self[static restrict 1], const GermanString src[static restrict 1]) {
-    if (self == nullptr || src == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
 
     const uint16_t NEW_LENGTH = self->length + src->length;
 
@@ -821,6 +813,7 @@ bool gerstr_concatenate_gerstring(GermanString self[static restrict 1], const Ge
 /* Helper functions */
 
 static inline uint16_t cstring_get_length(const char src[static restrict 1]) {
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
     const char *iter = src;
     uint16_t count = 0;
     while (*iter++)
@@ -831,10 +824,10 @@ static inline uint16_t cstring_get_length(const char src[static restrict 1]) {
 
 
 static inline bool copy_short_cstring(GermanString self[static restrict 1], uint16_t length, const char src[static restrict length]) {
-    uint16_t index = 0;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
 
-    if (self == nullptr || src == nullptr)
-        return false;
+    uint16_t index = 0;
 
     if (length > GERMAN_STRING_MAX_SHORT)
         return false;
@@ -848,8 +841,8 @@ static inline bool copy_short_cstring(GermanString self[static restrict 1], uint
 
 
 static inline bool copy_long_cstring(GermanString self[static restrict 1], uint16_t length, const char src[static restrict length]) {
-    if (self == nullptr || src == nullptr)
-        return false;
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
 
     uint16_t index = 0;
     unsigned char *allocated = malloc(length * sizeof(unsigned char));
@@ -875,6 +868,9 @@ static inline bool copy_long_cstring(GermanString self[static restrict 1], uint1
 
 
 static inline bool copy_from_cstring(GermanString self[static restrict 1], uint16_t length, const char src[static restrict length]) {
+    DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(src != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
+
     if (length <= GERMAN_STRING_MAX_SHORT)
         return copy_short_cstring(self, length, src);
     return copy_long_cstring(self, length, src);
