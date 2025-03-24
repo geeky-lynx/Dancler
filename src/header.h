@@ -15,7 +15,7 @@
     #endif
 #else
     #include <assert.h>
-    #define DEBUG_ASSERT_(x, msg) assert(x || msg)
+    #define DEBUG_ASSERT_(x, msg) assert((x) && msg)
 #endif
 
 
