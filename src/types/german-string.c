@@ -1,6 +1,4 @@
 /* TODO:
-    - Place debug asserts
-    - Deal with warning messages
     - Test for edge cases pls
 */
 
@@ -101,9 +99,9 @@ bool gerstr_uninit_zero(GermanString self[static restrict 1]) {
 
 
 
-bool gerstr_to_cstring(const GermanString self[static restrict 1], char *dest[static restrict 1]) {
+bool gerstr_to_cstring(const GermanString self[static restrict 1], char *dest[static restrict self->length]) {
     DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
-    DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
+    DEBUG_ASSERT_(dest != nullptr, "Passed parameter `dest` is NULL; expected a non-NULL");
 
     char *allocated = malloc(sizeof(unsigned char) * self->length);
     if (allocated == nullptr)
@@ -135,7 +133,7 @@ bool gerstr_to_cstring(const GermanString self[static restrict 1], char *dest[st
 
 
 
-bool gerstr_to_cstring_buffered(const GermanString self[static restrict 1], char dest[static restrict 1]) {
+bool gerstr_to_cstring_buffered(const GermanString self[static restrict 1], char dest[static restrict self->length]) {
     // Assume the user has allocated enough memory
     DEBUG_ASSERT_(self != nullptr, "Passed parameter `self` is NULL; expected a non-NULL");
     DEBUG_ASSERT_(dest != nullptr, "Passed parameter `dest` is NULL; expected a non-NULL");
@@ -814,9 +812,8 @@ bool gerstr_concatenate_gerstring(GermanString self[static restrict 1], const Ge
 
 static inline uint16_t cstring_get_length(const char src[static restrict 1]) {
     DEBUG_ASSERT_(src != nullptr, "Passed parameter `src` is NULL; expected a non-NULL");
-    const char *iter = src;
     uint16_t count = 0;
-    while (*iter++)
+    while (*src++)
         ++count;
     return count;
 }

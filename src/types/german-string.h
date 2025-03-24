@@ -52,9 +52,9 @@ bool gerstr_uninit_zero(GermanString self[static restrict 1]);
 
 
 
-bool gerstr_to_cstring(const GermanString self[static restrict 1], char *dest[static restrict 1]);
+bool gerstr_to_cstring(const GermanString self[static restrict 1], char *dest[static restrict self->length]);
 
-bool gerstr_to_cstring_buffered(const GermanString self[static restrict 1], char dest[static restrict 1]);
+bool gerstr_to_cstring_buffered(const GermanString self[static restrict 1], char dest[static restrict self->length]);
 
 
 
