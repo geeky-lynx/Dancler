@@ -1,27 +1,17 @@
 /* TODO:
-    1. Implement:
-        - gerstr_find_substring,
-        - gerstr_compare_with_cstring,
-        - gerstr_compare_with_gerstring,
-        - gerstr_to_lowercase,
-        - gerstr_to_uppercase,
-        - gerstr_copy_from_cstring
-        - gerstr_copy_from_gerstring,
-        - gerstr_concatenate_cstring,
-        - gerstr_concatenate_gerstring
-    2. Change function parameter types to support non-nullable values
-    3. Place debug asserts
-    4. Test for edge cases pls
+    - Place debug asserts
+    - Deal with warning messages
+    - Test for edge cases pls
 */
 
 #include "../header.h"
 #include "./german-string.h"
 
-static inline uint16_t cstring_get_length(const char *restrict src);
+static inline uint16_t cstring_get_length(const char src[static restrict 1]);
 
-static inline bool copy_short_cstring(GermanString *self, uint16_t length, const char *restrict src);
-static inline bool copy_long_cstring(GermanString *self, uint16_t length, const char *restrict src);
-static inline bool copy_from_cstring(GermanString *self, uint16_t length, const char *restrict src);
+static inline bool copy_short_cstring(GermanString self[static restrict 1], uint16_t length, const char src[static restrict length]);
+static inline bool copy_long_cstring(GermanString self[static restrict 1], uint16_t length, const char src[static restrict length]);
+static inline bool copy_from_cstring(GermanString self[static restrict 1], uint16_t length, const char src[static restrict length]);
 
 
 
@@ -31,7 +21,7 @@ GermanString gerstr_init_empty(void) {
 
 
 
-GermanString gerstr_init_from_cstring(const char *restrict src) {
+GermanString gerstr_init_from_cstring(const char src[static restrict 1]) {
     if (src == nullptr)
         return (GermanString){0};
 
@@ -46,11 +36,11 @@ GermanString gerstr_init_from_cstring(const char *restrict src) {
 
 
 
-GermanString gerstr_init_from_gerstring(const GermanString *src) {
+GermanString gerstr_init_from_gerstring(const GermanString src[static restrict 1]) {
     if (src == nullptr)
         return (GermanString){0};
 
-    GermanString newString = { .length = src->length, 0 };
+    GermanString newString = { .length = src->length };
     unsigned char *allocated;
 
     // Short string:
@@ -79,7 +69,7 @@ GermanString gerstr_init_from_gerstring(const GermanString *src) {
 
 
 
-bool gerstr_uninit(GermanString *self) {
+bool gerstr_uninit(GermanString self[static restrict 1]) {
     if (self == nullptr)
         return false;
 
@@ -93,7 +83,7 @@ bool gerstr_uninit(GermanString *self) {
 
 
 
-bool gerstr_uninit_zero(GermanString *self) {
+bool gerstr_uninit_zero(GermanString self[static restrict 1]) {
     if (self == nullptr)
         return false;
 
@@ -115,7 +105,7 @@ bool gerstr_uninit_zero(GermanString *self) {
 
 
 
-bool gerstr_to_cstring(const GermanString *self, char **dest) {
+bool gerstr_to_cstring(const GermanString self[static restrict 1], char *dest[static restrict 1]) {
     if (self == nullptr)
         return false;
 
@@ -149,7 +139,7 @@ bool gerstr_to_cstring(const GermanString *self, char **dest) {
 
 
 
-bool gerstr_to_cstring_buffered(const GermanString *self, char *dest) {
+bool gerstr_to_cstring_buffered(const GermanString self[static restrict 1], char dest[static restrict 1]) {
     // Assume the user has allocated enough memory
     if (self == nullptr || dest == nullptr)
         return false;
@@ -178,7 +168,7 @@ bool gerstr_to_cstring_buffered(const GermanString *self, char *dest) {
 
 
 
-bool gerstr_is_lowercase(const GermanString *self) {
+bool gerstr_is_lowercase(const GermanString self[static restrict 1]) {
     if (self == nullptr)
         return false;
 
@@ -214,7 +204,7 @@ bool gerstr_is_lowercase(const GermanString *self) {
 
 
 
-bool gerstr_is_uppercase(const GermanString *self) {
+bool gerstr_is_uppercase(const GermanString self[static restrict 1]) {
     if (self == nullptr)
         return false;
 
@@ -250,7 +240,7 @@ bool gerstr_is_uppercase(const GermanString *self) {
 
 
 
-bool gerstr_is_alphabetic(const GermanString *self) {
+bool gerstr_is_alphabetic(const GermanString self[static restrict 1]) {
     if (self == nullptr)
         return false;
 
@@ -295,7 +285,7 @@ bool gerstr_is_alphabetic(const GermanString *self) {
 
 
 
-bool gerstr_is_numeric(const GermanString *self) {
+bool gerstr_is_numeric(const GermanString self[static restrict 1]) {
     if (self == nullptr)
         return false;
 
@@ -330,7 +320,7 @@ bool gerstr_is_numeric(const GermanString *self) {
 
 
 
-bool gerstr_is_hexadecimal(const GermanString *self) {
+bool gerstr_is_hexadecimal(const GermanString self[static restrict 1]) {
     if (self == nullptr)
         return false;
 
@@ -379,7 +369,7 @@ bool gerstr_is_hexadecimal(const GermanString *self) {
 
 
 
-bool gerstr_is_alphanumeric(const GermanString *self) {
+bool gerstr_is_alphanumeric(const GermanString self[static restrict 1]) {
     if (self == nullptr)
         return false;
 
@@ -428,7 +418,7 @@ bool gerstr_is_alphanumeric(const GermanString *self) {
 
 
 
-bool gerstr_find_substring(const GermanString *self, const char *substring, uint16_t *foundAt) {
+bool gerstr_find_substring(const GermanString self[static restrict 1], const char substring[static restrict 1], uint16_t foundAt[static restrict 1]) {
     if (self == nullptr || substring == nullptr)
         return false;
 
@@ -501,7 +491,7 @@ bool gerstr_find_substring(const GermanString *self, const char *substring, uint
 
 
 
-int gerstr_compare_with_cstring(const GermanString *self, const char *src) {
+int gerstr_compare_with_cstring(const GermanString self[static restrict 1], const char src[static restrict 1]) {
     if (self == nullptr || src == nullptr)
         return -1;
 
@@ -540,7 +530,7 @@ int gerstr_compare_with_cstring(const GermanString *self, const char *src) {
 
 
 
-int gerstr_compare_with_gerstring(const GermanString *self, const GermanString *src) {
+int gerstr_compare_with_gerstring(const GermanString self[static restrict 1], const GermanString src[static restrict 1]) {
     if (self->length != src->length)
         return -1;
 
@@ -576,7 +566,7 @@ int gerstr_compare_with_gerstring(const GermanString *self, const GermanString *
 
 
 
-bool gerstr_to_lowercase(GermanString *self) {
+bool gerstr_to_lowercase(GermanString self[static restrict 1]) {
     if (self == nullptr)
         return false;
 
@@ -609,7 +599,7 @@ bool gerstr_to_lowercase(GermanString *self) {
 
 
 
-bool gerstr_to_uppercase(GermanString *self) {
+bool gerstr_to_uppercase(GermanString self[static restrict 1]) {
     if (self == nullptr)
         return false;
 
@@ -642,7 +632,7 @@ bool gerstr_to_uppercase(GermanString *self) {
 
 
 
-bool gerstr_copy_from_cstring(GermanString *self, const char *src) {
+bool gerstr_copy_from_cstring(GermanString self[static restrict 1], const char src[static restrict 1]) {
     if (self == nullptr || src == nullptr)
         return false;
 
@@ -659,7 +649,7 @@ bool gerstr_copy_from_cstring(GermanString *self, const char *src) {
 
 
 
-bool gerstr_copy_from_gerstring(GermanString *self, const GermanString *src) {
+bool gerstr_copy_from_gerstring(GermanString self[static restrict 1], const GermanString src[static restrict 1]) {
     if (self == nullptr || src == nullptr)
         return false;
 
@@ -676,7 +666,7 @@ bool gerstr_copy_from_gerstring(GermanString *self, const GermanString *src) {
 
 
 
-bool gerstr_concatenate_cstring(GermanString *self, const char *src) {
+bool gerstr_concatenate_cstring(GermanString self[static restrict 1], const char src[static restrict 1]) {
     if (self == nullptr || src == nullptr)
         return false;
 
@@ -735,7 +725,7 @@ bool gerstr_concatenate_cstring(GermanString *self, const char *src) {
 
 
 
-bool gerstr_concatenate_gerstring(GermanString *self, const GermanString *src) {
+bool gerstr_concatenate_gerstring(GermanString self[static restrict 1], const GermanString src[static restrict 1]) {
     if (self == nullptr || src == nullptr)
         return false;
 
@@ -830,16 +820,17 @@ bool gerstr_concatenate_gerstring(GermanString *self, const GermanString *src) {
 
 /* Helper functions */
 
-static inline uint16_t cstring_get_length(const char *restrict src) {
+static inline uint16_t cstring_get_length(const char src[static restrict 1]) {
+    const char *iter = src;
     uint16_t count = 0;
-    while (*src++)
+    while (*iter++)
         ++count;
     return count;
 }
 
 
 
-static inline bool copy_short_cstring(GermanString *self, uint16_t length, const char *restrict src) {
+static inline bool copy_short_cstring(GermanString self[static restrict 1], uint16_t length, const char src[static restrict length]) {
     uint16_t index = 0;
 
     if (self == nullptr || src == nullptr)
@@ -856,7 +847,7 @@ static inline bool copy_short_cstring(GermanString *self, uint16_t length, const
 
 
 
-static inline bool copy_long_cstring(GermanString *self, uint16_t length, const char *restrict src) {
+static inline bool copy_long_cstring(GermanString self[static restrict 1], uint16_t length, const char src[static restrict length]) {
     if (self == nullptr || src == nullptr)
         return false;
 
@@ -883,7 +874,7 @@ static inline bool copy_long_cstring(GermanString *self, uint16_t length, const 
 
 
 
-static inline bool copy_from_cstring(GermanString *self, uint16_t length, const char *restrict src) {
+static inline bool copy_from_cstring(GermanString self[static restrict 1], uint16_t length, const char src[static restrict length]) {
     if (length <= GERMAN_STRING_MAX_SHORT)
         return copy_short_cstring(self, length, src);
     return copy_long_cstring(self, length, src);

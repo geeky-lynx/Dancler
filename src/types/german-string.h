@@ -42,56 +42,56 @@ typedef struct GermanString GermanString;
 
 GermanString gerstr_init_empty(void);
 
-GermanString gerstr_init_from_cstring(const char *restrict src);
+GermanString gerstr_init_from_cstring(const char src[static restrict 1]);
 
-GermanString gerstr_init_from_gerstring(const GermanString *restrict src);
+GermanString gerstr_init_from_gerstring(const GermanString src[static restrict 1]);
 
-bool gerstr_uninit(GermanString *self);
+bool gerstr_uninit(GermanString self[static restrict 1]);
 
-bool gerstr_uninit_zero(GermanString *self);
-
-
-
-bool gerstr_to_cstring(const GermanString *self, char **dest);
-
-bool gerstr_to_cstring_buffered(const GermanString *self, char *dest);
+bool gerstr_uninit_zero(GermanString self[static restrict 1]);
 
 
 
-bool gerstr_is_lowercase(const GermanString *self);
+bool gerstr_to_cstring(const GermanString self[static restrict 1], char *dest[static restrict 1]);
 
-bool gerstr_is_upperacse(const GermanString *self);
-
-bool gerstr_is_alphabetic(const GermanString *self);
-
-bool gerstr_is_numeric(const GermanString *self);
-
-bool gerstr_is_hexadecimal(const GermanString *self);
-
-bool gerstr_is_alphanumeric(const GermanString *self);
+bool gerstr_to_cstring_buffered(const GermanString self[static restrict 1], char dest[static restrict 1]);
 
 
 
-bool gerstr_find_substring(const GermanString *self, const char *substring, uint16_t *foundAt);
+bool gerstr_is_lowercase(const GermanString self[static restrict 1]);
 
-int gerstr_compare_with_cstring(const GermanString *self, const char *src);
+bool gerstr_is_upperacse(const GermanString self[static restrict 1]);
 
-int gerstr_compare_with_gerstring(const GermanString *self, const GermanString *src);
+bool gerstr_is_alphabetic(const GermanString self[static restrict 1]);
+
+bool gerstr_is_numeric(const GermanString self[static restrict 1]);
+
+bool gerstr_is_hexadecimal(const GermanString self[static restrict 1]);
+
+bool gerstr_is_alphanumeric(const GermanString self[static restrict 1]);
 
 
 
-bool gerstr_to_lowercase(GermanString *self);
+bool gerstr_find_substring(const GermanString self[static restrict 1], const char substring[static restrict 1], uint16_t foundAt[static restrict 1]);
 
-bool gerstr_to_uppercase(GermanString *self);
+int gerstr_compare_with_cstring(const GermanString self[static restrict 1], const char src[static restrict 1]);
+
+int gerstr_compare_with_gerstring(const GermanString self[static restrict 1], const GermanString src[static restrict 1]);
 
 
 
-bool gerstr_copy_from_cstring(GermanString *self, const char *src);
+bool gerstr_to_lowercase(GermanString self[static restrict 1]);
 
-bool gerstr_copy_from_gerstring(GermanString *self, const GermanString *src);
+bool gerstr_to_uppercase(GermanString self[static restrict 1]);
 
-bool gerstr_concatenate_cstring(GermanString *self, const char *src);
 
-bool gerstr_concatenate_gerstring(GermanString *self, const GermanString *src);
+
+bool gerstr_copy_from_cstring(GermanString self[static restrict 1], const char src[static restrict 1]);
+
+bool gerstr_copy_from_gerstring(GermanString self[static restrict 1], const GermanString src[static restrict 1]);
+
+bool gerstr_concatenate_cstring(GermanString self[static restrict 1], const char src[static restrict 1]);
+
+bool gerstr_concatenate_gerstring(GermanString self[static restrict 1], const GermanString src[static restrict 1]);
 
 #endif /* DANCLER_GERMAN_STRING_ */
