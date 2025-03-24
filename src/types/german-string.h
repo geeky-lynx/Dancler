@@ -52,9 +52,9 @@ bool gerstr_uninit_zero(GermanString *self);
 
 
 
-int gerstr_to_cstring(const GermanString *self, char **dest);
+bool gerstr_to_cstring(const GermanString *self, char **dest);
 
-int gerstr_to_cstring_buffered(const GermanString *self, char *dest);
+bool gerstr_to_cstring_buffered(const GermanString *self, char *dest);
 
 
 
@@ -86,12 +86,12 @@ bool gerstr_to_uppercase(GermanString *self);
 
 
 
-int gerstr_copy_from_cstring(GermanString *self, const char *src);
+bool gerstr_copy_from_cstring(GermanString *self, const char *src);
 
-int gerstr_copy_from_gerstring(GermanString *self, const GermanString *src);
+bool gerstr_copy_from_gerstring(GermanString *self, const GermanString *src);
 
-int gerstr_concatenate_cstring(GermanString *self, const char *src);
+bool gerstr_concatenate_cstring(GermanString *self, const char *src);
 
-int gerstr_concatenate_gerstring(GermanString *self, const GermanString *src);
+bool gerstr_concatenate_gerstring(GermanString *self, const GermanString *src);
 
 #endif /* DANCLER_GERMAN_STRING_ */

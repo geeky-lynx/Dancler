@@ -115,13 +115,13 @@ bool gerstr_uninit_zero(GermanString *self) {
 
 
 
-int gerstr_to_cstring(const GermanString *self, char **dest) {
+bool gerstr_to_cstring(const GermanString *self, char **dest) {
     if (self == nullptr)
-        return -1;
+        return false;
 
     char *allocated = malloc(sizeof(unsigned char) * self->length);
     if (allocated == nullptr)
-        return -2;
+        return false;
 
     *dest = allocated;
 
@@ -130,7 +130,7 @@ int gerstr_to_cstring(const GermanString *self, char **dest) {
         for (uint16_t index = 0; index < self->length; index++)
             *allocated++ = self->content[index];
         *allocated = '\0';
-        return 0;
+        return true;
     }
 
     // Long string
@@ -144,22 +144,22 @@ int gerstr_to_cstring(const GermanString *self, char **dest) {
 
     *allocated = '\0';
 
-    return 0;
+    return true;
 }
 
 
 
-int gerstr_to_cstring_buffered(const GermanString *self, char *dest) {
+bool gerstr_to_cstring_buffered(const GermanString *self, char *dest) {
     // Assume the user has allocated enough memory
     if (self == nullptr || dest == nullptr)
-        return -1;
+        return false;
 
     // Short string
     if (self->length <= GERMAN_STRING_MAX_SHORT) {
         for (uint16_t index = 0; index < self->length; index++)
             *dest++ = self->content[index];
         *dest = '\0';
-        return 0;
+        return true;
     }
 
     // Long string
@@ -173,7 +173,7 @@ int gerstr_to_cstring_buffered(const GermanString *self, char *dest) {
 
     *dest = '\0';
 
-    return 0;
+    return true;
 }
 
 
@@ -642,9 +642,9 @@ bool gerstr_to_uppercase(GermanString *self) {
 
 
 
-int gerstr_copy_from_cstring(GermanString *self, const char *src) {
+bool gerstr_copy_from_cstring(GermanString *self, const char *src) {
     if (self == nullptr || src == nullptr)
-        return -1;
+        return false;
 
     if (self->length > GERMAN_STRING_MAX_SHORT)
         free(self->rest);
@@ -652,16 +652,16 @@ int gerstr_copy_from_cstring(GermanString *self, const char *src) {
     *self = gerstr_init_from_cstring(src);
 
     if (self->length == 0)
-        return -1;
+        return false;
 
-    return 0;
+    return true;
 }
 
 
 
-int gerstr_copy_from_gerstring(GermanString *self, const GermanString *src) {
+bool gerstr_copy_from_gerstring(GermanString *self, const GermanString *src) {
     if (self == nullptr || src == nullptr)
-        return -1;
+        return false;
 
     if (self->length > GERMAN_STRING_MAX_SHORT)
         free(self->rest);
@@ -669,16 +669,16 @@ int gerstr_copy_from_gerstring(GermanString *self, const GermanString *src) {
     *self = gerstr_init_from_gerstring(src);
 
     if (self->length == 0)
-        return -1;
+        return false;
 
-    return 0;
+    return true;
 }
 
 
 
-int gerstr_concatenate_cstring(GermanString *self, const char *src) {
+bool gerstr_concatenate_cstring(GermanString *self, const char *src) {
     if (self == nullptr || src == nullptr)
-        return -1;
+        return false;
 
     const uint16_t SRC_LENGTH = cstring_get_length(src);
     const uint16_t NEW_LENGTH = self->length + SRC_LENGTH;
@@ -689,7 +689,7 @@ int gerstr_concatenate_cstring(GermanString *self, const char *src) {
         while (index < NEW_LENGTH)
             self->content[index++] = *src++;
         self->length = NEW_LENGTH;
-        return 0;
+        return true;
     }
 
     // Long string, used to be short
@@ -702,7 +702,7 @@ int gerstr_concatenate_cstring(GermanString *self, const char *src) {
 
         unsigned char *allocated = (unsigned char*)malloc(tmpLength + SRC_LENGTH);
         if (allocated == nullptr)
-            return -1;
+            return false;
 
         self->rest = allocated;
 
@@ -713,7 +713,7 @@ int gerstr_concatenate_cstring(GermanString *self, const char *src) {
         while (index < NEW_LENGTH)
             *allocated++ = *src++;
 
-        return 0;
+        return true;
     }
 
     // Long string, still long string
@@ -723,21 +723,21 @@ int gerstr_concatenate_cstring(GermanString *self, const char *src) {
     );
 
     if (reallocated == nullptr)
-        return -1;
+        return false;
 
     self->rest = reallocated;
     uint16_t charsAt = self->length;
     while (charsAt++ < NEW_LENGTH)
         *reallocated++ = *src++;
 
-    return 0;
+    return true;
 }
 
 
 
-int gerstr_concatenate_gerstring(GermanString *self, const GermanString *src) {
+bool gerstr_concatenate_gerstring(GermanString *self, const GermanString *src) {
     if (self == nullptr || src == nullptr)
-        return -1;
+        return false;
 
     const uint16_t NEW_LENGTH = self->length + src->length;
 
@@ -747,7 +747,7 @@ int gerstr_concatenate_gerstring(GermanString *self, const GermanString *src) {
         while (self->length <= NEW_LENGTH)
             self->content[self->length++] = src->content[srcIndex++];
         self->length = NEW_LENGTH;
-        return 0;
+        return true;
     }
 
     // Long string, still long string
@@ -758,7 +758,7 @@ int gerstr_concatenate_gerstring(GermanString *self, const GermanString *src) {
         );
 
         if (reallocated == nullptr)
-            return -1;
+            return false;
 
         self->rest = reallocated;
 
@@ -769,7 +769,7 @@ int gerstr_concatenate_gerstring(GermanString *self, const GermanString *src) {
             while (srcIndex < src->length)
                 self->rest[charsAt++] = src->content[srcIndex++];
             self->length = NEW_LENGTH;
-            return 0;
+            return true;
         }
 
         // `src` is a long string
@@ -783,7 +783,7 @@ int gerstr_concatenate_gerstring(GermanString *self, const GermanString *src) {
             self->rest[charsAt++] = src->content[srcIndex++];
 
         self->length = NEW_LENGTH;
-        return 0;
+        return true;
     }
 
     // Long string, used to be short
@@ -795,7 +795,7 @@ int gerstr_concatenate_gerstring(GermanString *self, const GermanString *src) {
 
     unsigned char *allocated = (unsigned char*)malloc(tmpLength + src->length);
     if (allocated == nullptr)
-        return -1;
+        return false;
 
     self->rest = allocated;
 
@@ -811,7 +811,7 @@ int gerstr_concatenate_gerstring(GermanString *self, const GermanString *src) {
             self->rest[index++] = src->content[srcIndex++];
 
         self->length = NEW_LENGTH;
-        return 0;
+        return true;
     }
 
     uint16_t srcIndex = 0;
@@ -823,10 +823,7 @@ int gerstr_concatenate_gerstring(GermanString *self, const GermanString *src) {
         self->rest[index++] = src->rest[srcIndex++];
 
     self->length = NEW_LENGTH;
-    return 0;
-
-
-    return 0;
+    return true;
 }
 
 
