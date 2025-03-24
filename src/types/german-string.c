@@ -29,7 +29,7 @@ GermanString gerstr_init_from_cstring(const char src[static restrict 1]) {
     uint32_t srcLength = cstring_get_length(src);
     int result = copy_from_cstring(&newString, srcLength, src);
 
-    DEBUG_ASSERT_(result == true);
+    DEBUG_ASSERT_(result == true, "String hasn\'t been properly initialized");
 
     return newString;
 }

@@ -8,14 +8,14 @@
 #include <errno.h>
 
 #ifdef PRODUCTION_
-    #define DEBUG_ASSERT_(x) /* No runtime check */
+    #define DEBUG_ASSERT_(x, msg) /* No runtime check */
     /* In case `static_assert` causes some symbol errors */
     #ifndef static_assert
-        #define static_assert(x, msg)
+        #define static_assert(x, msg) _Static_assert(x, msg)
     #endif
 #else
     #include <assert.h>
-    #define DEBUG_ASSERT_(x) assert(x)
+    #define DEBUG_ASSERT_(x, msg) assert(x || msg)
 #endif
 
 
