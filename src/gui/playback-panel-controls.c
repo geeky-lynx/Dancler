@@ -65,9 +65,10 @@ extern inline void mute_audio(void) {
 
 
 
-void change_volume(const GtkAdjustment *VOLUME_ADJUSTMENT_SRC) {
-    DEBUG_ASSERT_(VOLUME_ADJUSTMENT_SRC != nullptr, "Passed GtkAdjustment* Volume is NULL");
+void change_volume(GtkAdjustment *volumeAdjustment, void *data) {
+    // DEBUG_ASSERT_(VOLUME_ADJUSTMENT_SRC != nullptr, "Passed GtkAdjustment* Volume is NULL");
 
-    const float WHOLE_PERCENTAGE = (float)gtk_adjustment_get_value(VOLUME_ADJUSTMENT_SRC);
+    const float WHOLE_PERCENTAGE = (float)gtk_adjustment_get_value(volumeAdjustment);
     set_volume_in_percents(WHOLE_PERCENTAGE);
+    (void)data; // Ignore unused parameter warning
 }

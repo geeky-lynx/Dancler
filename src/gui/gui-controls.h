@@ -49,6 +49,6 @@ extern inline void mute_audio(void);
             - Source of GTK Adjustment which value has been changed
     Returns: Nothing
 */
-void change_volume(const GtkAdjustment *VOLUME_ADJUSTMENT_SRC);
+void change_volume(GtkAdjustment *volumeAdjustment, void *data);
 
 #endif

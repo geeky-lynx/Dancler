@@ -32,7 +32,7 @@ void create_playback_ui(GtkWidget *windowBox) {
                 *playStopButton = NULL,
                 *nextButton = NULL,
                 *previousButton = NULL,
-                *muteButton = NULL,
+                // *muteButton = NULL,
                 *volumeSlider = NULL;
 
     playbackTime = gtk_adjustment_new(0.0, 0.0, 10.0, 1.0, 1.0, 1.0);
@@ -95,14 +95,15 @@ void create_playback_ui(GtkWidget *windowBox) {
     playStopButton = gtk_button_new_from_icon_name("media-playback-start"); // or "dancler-play-stop"
     previousButton = gtk_button_new_from_icon_name("media-skip-backward"); // or "dancler-previous"
     nextButton = gtk_button_new_from_icon_name("media-skip-forward"); // or "dancler-next"
-    muteButton = gtk_button_new_from_icon_name("audio-volume-muted"); // or "dancler-mute"
+    // muteButton = gtk_button_new_from_icon_name("audio-volume-muted"); // or "dancler-mute"
     volumeSlider = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, playbackVolume);
     gtk_widget_set_size_request(volumeSlider, 150, -1);
     g_signal_connect_swapped(G_OBJECT(playStopButton), "clicked", G_CALLBACK(play_stop_current_audio), titleLabel);
     g_signal_connect_swapped(G_OBJECT(previousButton), "clicked", G_CALLBACK(start_previous_audio), titleLabel);
     g_signal_connect_swapped(G_OBJECT(nextButton), "clicked", G_CALLBACK(start_next_audio), titleLabel);
-    g_signal_connect_swapped(G_OBJECT(muteButton), "clicked", G_CALLBACK(mute_audio), NULL);
-    g_signal_connect_swapped(G_OBJECT(volumeSlider), "value-changed", G_CALLBACK(change_volume), playbackVolume);
+    // g_signal_connect_swapped(G_OBJECT(muteButton), "clicked", G_CALLBACK(mute_audio), NULL);
+    // g_signal_connect_swapped(G_OBJECT(playbackVolume), "value-changed", G_CALLBACK(change_volume), playbackVolume);
+    g_signal_connect(G_OBJECT(playbackVolume), "value-changed", G_CALLBACK(change_volume), NULL);
 
 
     /* Put everything on the window */
@@ -123,7 +124,7 @@ void create_playback_ui(GtkWidget *windowBox) {
     gtk_box_append(GTK_BOX(actionsBox), previousButton);
     gtk_box_append(GTK_BOX(actionsBox), playStopButton);
     gtk_box_append(GTK_BOX(actionsBox), nextButton);
-    gtk_box_append(GTK_BOX(actionsBox), muteButton);
+    // gtk_box_append(GTK_BOX(actionsBox), muteButton);
     gtk_box_append(GTK_BOX(actionsBox), volumeSlider);
 
     gtk_box_append(GTK_BOX(controlsBox), actionsBox);
