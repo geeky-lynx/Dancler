@@ -129,10 +129,7 @@ extern inline int is_audio_playing(void) {
 
 
 int jump_to_seconds(float seconds) {
-    const ma_uint32 SAMPLE_RATE = ma_engine_get_sample_rate(&engine);
-    // Implicit conversion from `float` to `unsigned long long`
-    const ma_uint64 NEW_CURSOR_POS = SAMPLE_RATE * seconds;
-    return ma_sound_seek_to_pcm_frame(&sound, NEW_CURSOR_POS);
+    return ma_sound_seek_to_second(&sound, seconds);
 }
 
 
