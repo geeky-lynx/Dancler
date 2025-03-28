@@ -1,5 +1,6 @@
 #include "./gui-controls.h"
 #include "./interface-api.h"
+#include "./playback-info-and-actions.h"
 
 #define DEFAULT_COVER_IMAGE_ "assets/no-cover.png"
 #define DEFAULT_TITLE_NO_PLAYBACK_ "No playback"
@@ -17,8 +18,7 @@ void create_playback_ui(GtkWidget *windowBox) {
 
                 *infoAndControlBox = NULL,
                 *infoBox = NULL,
-                *titleLabel = NULL,
-                *authorsLabel = NULL,
+                *infoLabels[PLAYBACK_NUMBER_OF_INFOS],
                 *coverBox = NULL,
                 *coverImage = NULL,
 
@@ -29,10 +29,7 @@ void create_playback_ui(GtkWidget *windowBox) {
                 *timeSlider = NULL,
 
                 *actionsBox = NULL,
-                *playStopButton = NULL,
-                *nextButton = NULL,
-                *previousButton = NULL,
-                // *muteButton = NULL,
+                *actionButtons[PLAYBACK_NUMBER_OF_ACTIONS],
                 *volumeSlider = NULL;
 
     playbackTime = gtk_adjustment_new(0.0, 0.0, 10.0, 1.0, 1.0, 1.0);
@@ -63,11 +60,9 @@ void create_playback_ui(GtkWidget *windowBox) {
     gtk_widget_set_halign(infoBox, GTK_ALIGN_START);
     gtk_widget_set_valign(infoBox, GTK_ALIGN_START);
 
-    titleLabel = gtk_label_new(DEFAULT_TITLE_NO_PLAYBACK_);
-    // gtk_widget_set_hexpand(GTK_WIDGET(titleLabel), true);
-    // gtk_label_set_font_size(GTK_LABEL(titleLabel), 18.0); // method doesn't exist
-    authorsLabel = gtk_label_new(DEFAULT_AUTHORS_);
-    gtk_widget_set_hexpand(GTK_WIDGET(authorsLabel), true);
+    infoLabels[PLAYBACK_TITLE] = gtk_label_new(DEFAULT_TITLE_NO_PLAYBACK_);
+    infoLabels[PLAYBACK_AUTHORS] = gtk_label_new(DEFAULT_AUTHORS_);
+    gtk_widget_set_hexpand(GTK_WIDGET(infoLabels[PLAYBACK_AUTHORS]), true);
 
 
     /* Creating time stuff GUI elements */
@@ -92,17 +87,14 @@ void create_playback_ui(GtkWidget *windowBox) {
     gtk_widget_set_valign(actionsBox, GTK_ALIGN_START);
 
 
-    playStopButton = gtk_button_new_from_icon_name("media-playback-start"); // or "dancler-play-stop"
-    previousButton = gtk_button_new_from_icon_name("media-skip-backward"); // or "dancler-previous"
-    nextButton = gtk_button_new_from_icon_name("media-skip-forward"); // or "dancler-next"
-    // muteButton = gtk_button_new_from_icon_name("audio-volume-muted"); // or "dancler-mute"
+    actionButtons[PLAYBACK_PLAY_STOP] = gtk_button_new_from_icon_name("media-playback-start");
+    actionButtons[PLAYBACK_PREVIOUS] = gtk_button_new_from_icon_name("media-skip-backward");
+    actionButtons[PLAYBACK_NEXT] = gtk_button_new_from_icon_name("media-skip-forward");
     volumeSlider = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, playbackVolume);
     gtk_widget_set_size_request(volumeSlider, 150, -1);
-    g_signal_connect_swapped(G_OBJECT(playStopButton), "clicked", G_CALLBACK(play_stop_current_audio), titleLabel);
-    g_signal_connect_swapped(G_OBJECT(previousButton), "clicked", G_CALLBACK(start_previous_audio), titleLabel);
-    g_signal_connect_swapped(G_OBJECT(nextButton), "clicked", G_CALLBACK(start_next_audio), titleLabel);
-    // g_signal_connect_swapped(G_OBJECT(muteButton), "clicked", G_CALLBACK(mute_audio), NULL);
-    // g_signal_connect_swapped(G_OBJECT(playbackVolume), "value-changed", G_CALLBACK(change_volume), playbackVolume);
+    g_signal_connect_swapped(G_OBJECT(actionButtons[PLAYBACK_PLAY_STOP]), "clicked", G_CALLBACK(play_stop_current_audio), infoLabels[PLAYBACK_TITLE]);
+    g_signal_connect_swapped(G_OBJECT(actionButtons[PLAYBACK_PREVIOUS]), "clicked", G_CALLBACK(start_previous_audio), infoLabels[PLAYBACK_TITLE]);
+    g_signal_connect_swapped(G_OBJECT(actionButtons[PLAYBACK_NEXT]), "clicked", G_CALLBACK(start_next_audio), infoLabels[PLAYBACK_TITLE]);
     g_signal_connect(G_OBJECT(playbackVolume), "value-changed", G_CALLBACK(change_volume), NULL);
 
 
@@ -110,8 +102,8 @@ void create_playback_ui(GtkWidget *windowBox) {
     gtk_box_append(GTK_BOX(coverBox), coverImage);
     gtk_box_append(GTK_BOX(playbackBox), coverBox);
 
-    gtk_box_append(GTK_BOX(infoBox), titleLabel);
-    gtk_box_append(GTK_BOX(infoBox), authorsLabel);
+    gtk_box_append(GTK_BOX(infoBox), infoLabels[PLAYBACK_TITLE]);
+    gtk_box_append(GTK_BOX(infoBox), infoLabels[PLAYBACK_AUTHORS]);
 
     gtk_box_append(GTK_BOX(infoAndControlBox), infoBox);
 
@@ -121,10 +113,9 @@ void create_playback_ui(GtkWidget *windowBox) {
 
     gtk_box_append(GTK_BOX(controlsBox), timeBox);
 
-    gtk_box_append(GTK_BOX(actionsBox), previousButton);
-    gtk_box_append(GTK_BOX(actionsBox), playStopButton);
-    gtk_box_append(GTK_BOX(actionsBox), nextButton);
-    // gtk_box_append(GTK_BOX(actionsBox), muteButton);
+    gtk_box_append(GTK_BOX(actionsBox), actionButtons[PLAYBACK_PREVIOUS]);
+    gtk_box_append(GTK_BOX(actionsBox), actionButtons[PLAYBACK_PLAY_STOP]);
+    gtk_box_append(GTK_BOX(actionsBox), actionButtons[PLAYBACK_NEXT]);
     gtk_box_append(GTK_BOX(actionsBox), volumeSlider);
 
     gtk_box_append(GTK_BOX(controlsBox), actionsBox);
