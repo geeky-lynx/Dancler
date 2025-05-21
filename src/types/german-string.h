@@ -32,9 +32,9 @@ struct GermanString {
         struct {
             unsigned char prefix[GERMAN_STRING_PREFIX_SIZE];
             unsigned char *rest;
-        };
+        } __attribute__((packed));
     };
-};
+} __attribute__((packed));
 
 typedef struct GermanString GermanString;
 
