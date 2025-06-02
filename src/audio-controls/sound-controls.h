@@ -123,22 +123,21 @@ extern inline int is_audio_playing(void);
 /*
   int jump_to_seconds(float seconds): Go to specific
   Parameters:
-    - seconds
+    - seconds (float): Where to set playback cursor in timeline (0.0f is start)
   Returns: (int) Result of jump
     - `0` (`MA_SUCCESS`): Successful jump to given second
     - Non `0`: Failure
 */
-int jump_to_seconds(unsigned seconds);
+int jump_to_seconds(float seconds);
 
 /*
   float retrieve_audio_length_in_seconds(void): Get loaded audio's length in seconds
   Parameters:
-    - None
-  Returns: (float) Total length of loaded audio or error
-    - > `0.0f`: Total amount of seconds loaded audio source has
-    - `0.0f`: Unexpected value
-    - < '0.0f`: Failed to retrieve shit (error)
+    - audioLength (float*): address to where length of audio is stored
+  Returns: (int) Total length of loaded audio or error
+    - `0`: Total amount of seconds loaded audio source has
+    - Non `0`: Failed to retrieve shit (error)
 */
-float retrieve_audio_length_in_seconds(void);
+int retrieve_audio_length_in_seconds(float *audioLength);
 
 #endif // DANCLER_SOUND_CONTROLS_

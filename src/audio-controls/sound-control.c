@@ -134,10 +134,14 @@ int jump_to_seconds(float seconds) {
 
 
 
-float retrieve_audio_length_in_seconds(void) {
-    float audioLength = 0;
-    const ma_result RESULT = ma_sound_get_length_in_seconds(&sound, &audioLength);
+int retrieve_audio_length_in_seconds(float *audioLength) {
+    if (audioLength == NULL)
+        return -1;
+
+    float length = 0;
+    const ma_result RESULT = ma_sound_get_length_in_seconds(&sound, &length);
     if (RESULT != MA_SUCCESS)
-        return (float)RESULT;
-    return audioLength;
+        return RESULT;
+    *audioLength = length;
+    return RESULT;
 }
