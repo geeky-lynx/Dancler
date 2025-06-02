@@ -24,17 +24,14 @@ void play_stop_current_audio(GtkWidget *titleLabel) {
 void start_previous_audio(GtkWidget *titleLabel) {
     const int RESULT = is_audio_loaded();
     if (RESULT) {
-        toggle_playback();
+        stop_playback();
         unload_audio_from_queue();
     }
 
-    if (playlistIndex == 0)
-        playlistIndex = playlistSize;
-    --playlistIndex;
-    // alt. playlistIndex = (playlistIndex - 1) % playlistSize
+    playlistIndex = (playlistIndex - 1) % playlistSize;
 
     load_audio_to_queue(playlist[playlistIndex]);
-    toggle_playback();
+    start_playback();
     gtk_label_set_text(GTK_LABEL(titleLabel), playlist[playlistIndex]);
 }
 
@@ -47,11 +44,8 @@ void start_next_audio(GtkWidget *titleLabel) {
         unload_audio_from_queue();
     }
 
-    ++playlistIndex;
-    if (playlistIndex >= playlistSize)
-        playlistIndex = 0;
+    playlistIndex = (playlistIndex + 1) % playlistSize;
 
-    // alt: playlistIndex = (playlistIndex + 1) % playlistSize
     load_audio_to_queue(playlist[playlistIndex]);
     start_playback();
     gtk_label_set_text(GTK_LABEL(titleLabel), playlist[playlistIndex]);
