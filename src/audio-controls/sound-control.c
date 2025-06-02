@@ -34,17 +34,19 @@ void set_volume_in_percents(float volumePercertange) {
 
 
 int load_audio_to_queue(const char filename[]) {
+    if (isSoundInited == true)
+        return -1;
     const ma_result SOUND_RESULT = ma_sound_init_from_file(&engine, filename, 0, NULL, NULL, &sound);
     if (SOUND_RESULT != MA_SUCCESS)
         return SOUND_RESULT;
     isSoundInited = true;
-    return 0;
+    return MA_SUCCESS;
 }
 
 
 
 int unload_audio_from_queue(void) {
-    if (isSoundInited)
+    if (isSoundInited == false)
         return -1;
     ma_sound_uninit(&sound);
     isSoundInited = false;
