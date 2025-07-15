@@ -1,5 +1,6 @@
 #include "../header.h"
 #include "gui-controls.h"
+#include "playback-panel.h"
 #include "../audio-controls/sound-controls.h"
 
 
@@ -10,18 +11,18 @@ const char *playlist[] = {"FH.mp3", "ShesHomeless.mp3", "BG-HS.mp3"};
 
 
 
-void play_stop_current_audio(GtkWidget *titleLabel) {
+void play_stop_current_audio() {
     const int RESULT = is_audio_loaded();
     if (!RESULT) {
         load_audio_to_queue(playlist[playlistIndex]);
     }
     toggle_playback();
-    gtk_label_set_text(GTK_LABEL(titleLabel), playlist[playlistIndex]);
+    gtk_label_set_text(GTK_LABEL(get_title_label()), playlist[playlistIndex]);
 }
 
 
 
-void start_previous_audio(GtkWidget *titleLabel) {
+void start_previous_audio() {
     const int RESULT = is_audio_loaded();
     if (RESULT) {
         stop_playback();
@@ -32,12 +33,12 @@ void start_previous_audio(GtkWidget *titleLabel) {
 
     load_audio_to_queue(playlist[playlistIndex]);
     start_playback();
-    gtk_label_set_text(GTK_LABEL(titleLabel), playlist[playlistIndex]);
+    gtk_label_set_text(GTK_LABEL(get_title_label()), playlist[playlistIndex]);
 }
 
 
 
-void start_next_audio(GtkWidget *titleLabel) {
+void start_next_audio() {
     const int RESULT = is_audio_loaded();
     if (RESULT) {
         stop_playback();
@@ -48,7 +49,7 @@ void start_next_audio(GtkWidget *titleLabel) {
 
     load_audio_to_queue(playlist[playlistIndex]);
     start_playback();
-    gtk_label_set_text(GTK_LABEL(titleLabel), playlist[playlistIndex]);
+    gtk_label_set_text(GTK_LABEL(get_title_label()), playlist[playlistIndex]);
 }
 
 

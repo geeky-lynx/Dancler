@@ -38,7 +38,8 @@ void create_playlist_ui(GtkWidget *windowBox) {
                 *playlistTable = NULL,
 
                 *actionBox = NULL,
-                *findButton = NULL;
+                *findButton = NULL,
+                *addButton = NULL;
 
     GtkTreeModel *itemsModel = NULL;
 
@@ -71,7 +72,9 @@ void create_playlist_ui(GtkWidget *windowBox) {
 
     actionBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     findButton = gtk_button_new_from_icon_name("edit-find");
+    addButton = gtk_button_new_from_icon_name("document-new");
     gtk_box_append(GTK_BOX(actionBox), findButton);
+    gtk_box_append(GTK_BOX(actionBox), addButton);
 
 
     /* Putting everything on window */

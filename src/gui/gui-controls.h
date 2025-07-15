@@ -6,31 +6,25 @@
 #include <gtk/gtk.h>
 
 /*
-  void play_stop_current_audio(GtkWidget *titleLabel): Toggle audio playback through GUI
-  Parameters:
-    1. GtkWidget *titleLabel
-        - GTK label to update to show current name of audio playback file
+  void play_stop_current_audio(): Toggle audio playback through GUI
+  Parameters: None
   Returns: Nothing
 */
-void play_stop_current_audio(GtkWidget *titleLabel);
+void play_stop_current_audio();
 
 /*
-  void start_previous_audio(GtkWidget *titleLabel): Start playing previous audio in playlist/queue
-  Parameter:
-    1. GtkWidget *titleLabel
-        - GTK label to update to show previous name of audio playback file
+  void start_previous_audio(): Start playing previous audio in playlist/queue
+  Parameter: None
   Returns: Nothing
 */
-void start_previous_audio(GtkWidget *titleLabel);
+void start_previous_audio();
 
 /*
-  void start_next_audio(GtkWidget *titleLabel): Start playing next audio in playlist/queue
-  Parameter:
-    1. GtkWidget *titleLabel
-        - GTK label to update to show next name of audio playback file
+  void start_next_audio(): Start playing next audio in playlist/queue
+  Parameter: None
   Returns: Nothing
 */
-void start_next_audio(GtkWidget *titleLabel);
+void start_next_audio();
 
 /*
   void mute_audio(): Toggle volume on/off of the software
