@@ -20,7 +20,7 @@ pkg_check_modules(GTK REQUIRED gtk4)
 
 add_executable(
 	dancler
-	src/types/german-string.c
+	src/common/german-string.c
 	src/audio-controls/miniaudio-definitions.c
 	src/audio-controls/sound-control.c
 	src/gui/playback-panel-controls.c
