@@ -2,6 +2,11 @@
     - Test for edge cases pls
 */
 
+// doing this so clangd can stfu
+#if defined(__STDC_VERSION__) || (__STDC_VERSION__ < 112022L)
+#define nullptr NULL
+#endif
+
 #include "../header.h"
 #include "./german-string.h"
 

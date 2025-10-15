@@ -14,11 +14,13 @@ struct SongInfo {
     uint8_t rating;
     uint8_t bitrate;
     uint64_t durationInSeconds;
-    struct hidden { // Struct named as a "field"
+    struct { // Struct named as a "field"
         unsigned char *directory;
         unsigned char *filename;
-    };
+    } hidden;
 };
+
+typedef struct SongInfo SongInfo;
 
 enum SongInfoColumn {
     COLUMN_TRACK_NUMBER,
@@ -32,6 +34,6 @@ enum SongInfoColumn {
     COLUMN_DURATIONS_SECONDS,
 
     NUMBER_OF_COLUMNS /* Number of "visible" fields for playlist  */
-}
+};
 
 #endif /* DANCLER_SONG_INFORMATION_ */

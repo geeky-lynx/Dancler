@@ -1,27 +1,10 @@
 #include "./interface-api.h"
+#include "../database/playlist.h"
 
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 
-static GArray *songs;
-
-typedef struct _Item {
-    int num;
-    char *filepath;
-    char *title;
-} Item;
-
-enum {
-    COLUMN_ITEM_NUM,
-    COLUMN_ITEM_FILEPATH,
-    COLUMN_ITEM_TITLE,
-
-    NUM_ITEM_COLUMNS
-};
-
-enum {
-    COLUMN_NUMBER_TEXT,
-    NUM_NUMBER_COLUMNS
-};
+// TODO: free the dynamic memory with `g_free()`
+static GArray *songs; // Stores indexes
 
 static void add_items();
 static GtkTreeModel *create_items_model();
@@ -43,7 +26,8 @@ void create_playlist_ui(GtkWidget *windowBox) {
 
     GtkTreeModel *itemsModel = NULL;
 
-    songs = g_array_sized_new(false, false, sizeof(Item), 1);
+    // songs = g_array_sized_new(false, false, sizeof(Item), 1);
+    songs = g_array_sized_new(false, false, sizeof(size_t), 1);
 
 
     playlistBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -87,22 +71,25 @@ void create_playlist_ui(GtkWidget *windowBox) {
 
 // Temporary shit (just to see if things work)
 static void add_items() {
-    Item tmp;
+    size_t tmp;
     g_return_if_fail(songs != NULL);
 
-    tmp.num = 1;
-    tmp.filepath = g_strdup("FH.mp3");
-    tmp.title = g_strdup("Fearless Hero");
+    // tmp.num = 1;
+    // tmp.filepath = g_strdup("FH.mp3");
+    // tmp.title = g_strdup("Fearless Hero");
+    tmp = 0;
     g_array_append_vals(songs, &tmp, 1);
 
-    tmp.num = 2;
-    tmp.filepath = g_strdup("ShesHomeless.mp3");
-    tmp.title = g_strdup("She\'s Homeless");
+    // tmp.num = 2;
+    // tmp.filepath = g_strdup("ShesHomeless.mp3");
+    // tmp.title = g_strdup("She\'s Homeless");
+    tmp++;
     g_array_append_vals(songs, &tmp, 1);
 
-    tmp.num = 3;
-    tmp.filepath = g_strdup("BG-HS.mp3");
-    tmp.title = g_strdup("Barbie Girl (Hardstyle)");
+    // tmp.num = 3;
+    // tmp.filepath = g_strdup("BG-HS.mp3");
+    // tmp.title = g_strdup("Barbie Girl (Hardstyle)");
+    tmp++;
     g_array_append_vals(songs, &tmp, 1);
 }
 
@@ -121,11 +108,13 @@ static GtkTreeModel* create_items_model() {
     );
 
     for (i = 0; i < songs->len; i++) {
+        int gi = g_array_index(songs, size_t, i);
+        Item item = get_item_at((size_t)gi);
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model, &iter,
-            COLUMN_ITEM_NUM, g_array_index(songs, Item, i).num,
-            COLUMN_ITEM_FILEPATH, g_array_index(songs, Item, i).filepath,
-            COLUMN_ITEM_TITLE, g_array_index(songs, Item, i).title,
+            COLUMN_ITEM_NUM, item.num,
+            COLUMN_ITEM_FILEPATH, item.filepath,
+            COLUMN_ITEM_TITLE, item.title,
             -1
         );
     }
@@ -205,7 +194,8 @@ static void play_from_playlist(const GtkTreeView *tree) {
         GtkTreePath *path;
         path = gtk_tree_model_get_path(model, &iter);
         i = gtk_tree_path_get_indices(path)[0];
-        Item tmp = g_array_index(songs, Item, i);
+        size_t tmpI = g_array_index(songs, size_t, i);
+        Item tmp = get_item_at(tmpI);
         printf("%d - %s - %s\n", tmp.num, tmp.filepath, tmp.title);
 
     }

@@ -1,0 +1,7 @@
+#ifndef DATABASE_CONSTANTS_
+#define DATABASE_CONSTANTS_ 1
+
+#define FILE_FIELD_SEPARATOR_ '\t'
+#define FILE_ENTRY_SEPARATOR_ '\n'
+
+#endif /* DATABASE_CONSTANTS_ */

@@ -23,6 +23,7 @@ add_executable(
 	src/common/german-string.c
 	src/audio-controls/miniaudio-definitions.c
 	src/audio-controls/sound-control.c
+	src/database/playlist.c
 	src/gui/playback-panel-controls.c
 	src/gui/playback-panel.c
 	src/gui/playlist-panel.c
